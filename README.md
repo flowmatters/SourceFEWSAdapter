@@ -49,6 +49,6 @@ There are a few big things that the adapter doesn't currently support and a few 
 
 
 [fews]: http://www.deltares.nl/en/software/479962/delft-fews
-[groovyFEWS]: /flowmatters/groovyFEWS
+[groovyFEWS]: http://github.com/flowmatters/groovyFEWS
 [GeneralAdapter]: https://publicwiki.deltares.nl/display/FEWSDOC/05+General+Adapter+Module
 [source]: http://www.ewater.com.au/products/ewater-source/
