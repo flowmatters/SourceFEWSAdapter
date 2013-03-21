@@ -47,8 +47,12 @@ There are a few big things that the adapter doesn't currently support and a few 
 
 * Only time series can be modified, there is currently no provision for changing Source model parameters (though this is planned for the adapter)
 
+## Licencse
+
+The Source FEWS Adapter is licensed under the [LGPLv3]
 
 [fews]: http://www.deltares.nl/en/software/479962/delft-fews
 [groovyFEWS]: http://github.com/flowmatters/groovyFEWS
 [GeneralAdapter]: https://publicwiki.deltares.nl/display/FEWSDOC/05+General+Adapter+Module
 [source]: http://www.ewater.com.au/products/ewater-source/
+[LGPLv3]: http://www.gnu.org/copyleft/lesser.html
