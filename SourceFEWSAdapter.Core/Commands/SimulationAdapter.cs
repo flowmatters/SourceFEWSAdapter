@@ -15,12 +15,15 @@ namespace SourceFEWSAdapter.Commands
         {
             var start = DateTimeComplexType.DateTimeFromPI(runSettings.startDateTime);
             var end = DateTimeComplexType.DateTimeFromPI(runSettings.endDateTime);
-            const string dateFormat = "dd/MM/yyyy";
+            
+            string dateFormat = "dd/MM/yyyy";
+            if (runSettings.TimeStepInSeconds != 86400)
+                dateFormat += " HH:mm:ss";
 
             string sourceExe = args[2];
             string sourceProject = args[3];
-            string sourceOutput = args[4];
-
+            string sourceOutput = runSettings.Property("SourceOutputFile");
+            
             if (File.Exists(sourceOutput))
             {
                 diagnostics.Log(3,string.Format("Deleting old source output file {0}",sourceOutput));

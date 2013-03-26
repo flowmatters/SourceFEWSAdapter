@@ -20,7 +20,7 @@ Thus, the Source FEWS adapter requires three executeActivity steps in the Genera
 
 ## The FEWS Run Settings File
 
-As noted, above, the adapter requires you to configure a Run Settings file to be exported from FEWS. Your exportRunFileActivity element needs to configure some custom property elements to (a) name the Source output file (which will get read and converted to FEWS PI format), and (b) to map individual time series to a CSV file based on parameter.
+As noted, above, the adapter requires you to configure a Run Settings file to be exported from FEWS. Your exportRunFileActivity element needs to configure some custom property elements to (a) name the Source output file (which will get read and converted to FEWS PI format), (b) to map individual time series to a CSV file based on parameter, and (c) optionally specify a simulation timestep if not daily.
 
 The Source output file is specified using a property with key='SourceOutputFile'. Parameters are mapped to Source input files using properties where the key follows the pattern 'ExpectedFile_propertyName', as in the following example (in [groovyFEWS] form):
 
@@ -30,6 +30,7 @@ properties() {
   string(key:'ExpectedFile_Rainfall', value:'rainfallfeed.csv')
   string(key:'ExpectedFile_PET', value:'petfeed.csv')
   string(key:'ExpectedFile_Flow', value:'observedflow.csv')
+  string(key:'TimeStep',value:3600) // Optional time step (in seconds)
 }
 ```
 

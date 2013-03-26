@@ -67,5 +67,14 @@ namespace SourceFEWSAdapter.FEWSPI
             
             return result.ToArray();
         }
+
+        public int TimeStepInSeconds
+        {
+            get
+            {
+                string timeStepProperty = Property("TimeStep");
+                return timeStepProperty == null ? 86400 : int.Parse(timeStepProperty);
+            }
+        }
     }
 }

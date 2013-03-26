@@ -42,7 +42,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="TIME">
-      <HintPath>..\..\..\Program Files\eWater\Source 3.2.8.58\TIME.dll</HintPath>
+      <HintPath>C:\Program Files\eWater\Source 3.2.8.58\TIME.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
