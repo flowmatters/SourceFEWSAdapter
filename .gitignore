@@ -24,3 +24,5 @@ Output
 _ReSharper*/
 *.resharper
 
+
+*.dat
