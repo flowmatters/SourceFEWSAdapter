@@ -47,7 +47,7 @@ There are a few big things that the adapter doesn't currently support and a few 
 
 * Only time series can be modified, there is currently no provision for changing Source model parameters (though this is planned for the adapter)
 
-## Licencse
+## License
 
 The Source FEWS Adapter is licensed under the [LGPLv3]
 
