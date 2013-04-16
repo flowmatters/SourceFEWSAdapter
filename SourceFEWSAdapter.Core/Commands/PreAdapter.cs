@@ -15,7 +15,15 @@ namespace SourceFEWSAdapter.Commands
             var inputSeries = runSettings.AllInputSeries();
 
             Array.Sort(inputSeries,
-                       ((x, y) => String.Compare(x.header.locationId, y.header.locationId, StringComparison.Ordinal)));
+                       ((x, y) =>
+                           {
+                               int locationCompare = String.Compare(x.header.locationId, y.header.locationId,
+                                                                    StringComparison.Ordinal);
+                               return locationCompare == 0
+                                          ? String.Compare(x.header.parameterId, y.header.parameterId,
+                                                           StringComparison.Ordinal)
+                                          : locationCompare;
+                           }));
 
             Dictionary<string, CSVFileIO> outputSets = new Dictionary<string, CSVFileIO>();
             foreach (TimeSeriesComplexType fewsTS in inputSeries)
