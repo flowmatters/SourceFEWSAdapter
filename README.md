@@ -29,11 +29,12 @@ As noted, above, the adapter requires you to configure a Run Settings file to be
  
 The Source output file is specified using a property with key='SourceOutputFile'. Parameters are mapped to Source input files using properties where the key follows the pattern 'ExpectedFile_propertyName', as in the following example (in [groovyFEWS] form):
  
-```properties() {
+```groovy
+properties() {
    string(key:'ExpectedFile_PET', value:'petfeed.csv')
    string(key:'ExpectedFile_Flow', value:'observedflow.csv')
    string(key:'TimeStep',value:3600) // Optional time step (in seconds)
-  string(key:'Port',value:9876) // When the Source service is hosted locally
+   string(key:'Port',value:9876) // When the Source service is hosted locally
 }
 ```
 
