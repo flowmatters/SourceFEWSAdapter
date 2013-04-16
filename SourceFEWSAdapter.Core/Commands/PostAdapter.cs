@@ -15,7 +15,7 @@ namespace SourceFEWSAdapter.Commands
                 NonInteractiveIO.Load(runSettings.workDir + "\\" + runSettings.Property("SourceOutputFile"));
             diagnostics.Log(3,string.Format("Loaded {0} time series",results.Length));
 
-            TimeSeriesCollectionComplexType fewsTimeSeriesCollection = TIMEProxy.FromTimeSeriesCollection(results);
+            TimeSeriesCollectionComplexType fewsTimeSeriesCollection = TIMEProxy.FromTimeSeriesCollection(results,runSettings.timeZone);
             string outputFn = runSettings.outputTimeSeriesFile[0];
 
             FEWSPIProxy.WriteTimeSeriesCollection(outputFn, fewsTimeSeriesCollection);

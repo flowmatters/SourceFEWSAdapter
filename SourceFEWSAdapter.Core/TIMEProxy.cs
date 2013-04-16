@@ -12,14 +12,12 @@ namespace SourceFEWSAdapter.Core
 {
     public class TIMEProxy
     {
-        private const double TimeZone = 10.0;
-
-        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection)
+        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection, double timeZone)
         {
             TimeSeriesCollectionComplexType result = new TimeSeriesCollectionComplexType();
             IEnumerable<TimeSeriesComplexType> piCollection = collection.Select(FromTimeSeries);
             result.series = piCollection.ToArray();
-            result.timeZone = TimeZone;
+            result.timeZone = timeZone;
             return result;
         }
 
@@ -63,12 +61,12 @@ namespace SourceFEWSAdapter.Core
 
         private static string ParameterName(string name)
         {
-            return NameComponents(name)[2];
+            return NameComponents(name).Length>2?NameComponents(name)[2]:name;
         }
 
         private static string LocationName(string name)
         {
-            return NameComponents(name)[1];
+            return NameComponents(name).Length>1? NameComponents(name)[1]:name;
         }
 
         private static string[] NameComponents(string name)
