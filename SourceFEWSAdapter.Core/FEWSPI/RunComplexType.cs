@@ -55,7 +55,8 @@ namespace SourceFEWSAdapter.FEWSPI
                 if (GetKey(property).IndexOf(marker + parameter, System.StringComparison.Ordinal) == 0)
                     return GetValue(property);
             }
-            return "defaultFile.csv";
+
+            return Property("SourceInputFile") ?? "defaultFile.csv";
         }
 
         public TimeSeriesComplexType[] AllInputSeries()
@@ -75,6 +76,20 @@ namespace SourceFEWSAdapter.FEWSPI
                 string timeStepProperty = Property("TimeStep");
                 return timeStepProperty == null ? 86400 : int.Parse(timeStepProperty);
             }
+        }
+
+        public string executionMode()
+        {
+            string port = Property("Port");
+            if (port != null)
+                return String.Format("-m Client -a net.tcp://localhost:{0}/eWater/Services/RiverSystemService", port);
+
+            string uri = Property("URI");
+            if (uri != null)
+                return String.Format("-m Client -a {0}", uri);
+
+            return "";
+
         }
     }
 }

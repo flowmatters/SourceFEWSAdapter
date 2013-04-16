@@ -21,7 +21,8 @@ namespace SourceFEWSAdapter.Commands
                 dateFormat += " HH:mm:ss";
 
             string sourceExe = args[2];
-            string sourceProject = args[3];
+            string sourceProject = args.Length>3?args[3]:"";
+
             string sourceOutput = runSettings.Property("SourceOutputFile");
             
             if (File.Exists(sourceOutput))
@@ -30,9 +31,14 @@ namespace SourceFEWSAdapter.Commands
                 File.Delete(sourceOutput);
             }
 
-            string sourceCommand = string.Format("-p \"{0};;{1};{2}\" -o {3}",
+            string mode = runSettings.executionMode();
+
+            if (mode != "")
+                sourceProject = "";
+
+            string sourceCommand = string.Format("-p \"{0};;{1};{2}\" {4} -o {3}",
                                                  sourceProject, start.ToString(dateFormat),
-                                                 end.ToString(dateFormat), sourceOutput);
+                                                 end.ToString(dateFormat), sourceOutput,mode);
             diagnostics.Log(3, string.Format("Starting Source Run with command line {0}",sourceCommand));
 
             ProcessStartInfo startInfo = new ProcessStartInfo
