@@ -18,6 +18,7 @@ public class SourceServiceController implements FewsExplorerPlugin {
 	private FewsEnvironment environment;
 	private ArrayList<SourceServer> servers = new ArrayList<SourceServer>();
 	private long lastLogTime = 0;
+	private boolean shutDown = false;
 	
 	@Override
 	public void dispose() {
@@ -34,13 +35,14 @@ public class SourceServiceController implements FewsExplorerPlugin {
 	    	s.stop();
 	    	log.info("Server stopped");
 		}
+		shutDown = true;
 	}
 
 	@Override
 	public boolean isAlive() {
 		updateLogs();
 		
-		return true;
+		return !shutDown;
 	}
 
 	private void updateLogs() {
@@ -66,7 +68,7 @@ public class SourceServiceController implements FewsExplorerPlugin {
             {
             	String[] components = line.split(",");
             	String projectFile = components[0];            	
-            	int portNumber = Integer.parseInt(components[1]);
+            	int portNumber = Integer.parseInt(components[1].replaceAll("(\\r|\\n)", ""));
             	
             	SourceServer server = new SourceServer(projectFile,portNumber);
             	servers.add(server);
