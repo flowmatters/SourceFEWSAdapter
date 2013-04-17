@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="RiverSystemService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBindingEndpoint_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256>
+                </sp:Basic256>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict>
+                </sp:Strict>
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/RiverSystem.Services" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IRiverSystemService_SetReturnBaseSIUnits_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetReturnBaseSIUnits" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetReturnBaseSIUnits_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetReturnBaseSIUnitsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetRestorable_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetRestorable" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetRestorable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetRestorableResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Restore_InputMessage">
+    <wsdl:part name="parameters" element="tns:Restore" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Restore_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RestoreResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Load_InputMessage">
+    <wsdl:part name="parameters" element="tns:Load" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Load_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SaveAs_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAs" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SaveAs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveAsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetLoadedProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLoadedProject" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetLoadedProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLoadedProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Run_InputMessage">
+    <wsdl:part name="parameters" element="tns:Run" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Run_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RunResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Step_InputMessage">
+    <wsdl:part name="parameters" element="tns:Step" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Step_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StepResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetStep_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStep" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetStep_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetMetaParameters_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetaParameters" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetMetaParameters_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMetaParametersResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetMetaParameterValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetMetaParameterValue" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetMetaParameterValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetMetaParameterValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetAllTimeSeries_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTimeSeries" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetAllTimeSeries_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTimeSeriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeSeries_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeSeries" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeSeries_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeSeriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeStepValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeStepValue" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeStepValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeStepValueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Reset_InputMessage">
+    <wsdl:part name="parameters" element="tns:Reset" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Reset_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Finish_InputMessage">
+    <wsdl:part name="parameters" element="tns:Finish" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_Finish_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FinishResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_QueryProjectDescription_InputMessage">
+    <wsdl:part name="parameters" element="tns:QueryProjectDescription" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_QueryProjectDescription_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QueryProjectDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetCurrentTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrentTime" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetCurrentTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCurrentTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeStep_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeStep" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetTimeStep_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTimeStepResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetProjectDescription_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectDescription" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetProjectDescription_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetScenarioStartTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScenarioStartTime" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetScenarioStartTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScenarioStartTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioStartTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioStartTime" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioStartTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioStartTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetScenarioEndTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetScenarioEndTime" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_GetScenarioEndTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetScenarioEndTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioEndTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioEndTime" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioEndTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioEndTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioInputSet_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioInputSet" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_SetScenarioInputSet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetScenarioInputSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_OnProgressChanged_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnProgressChanged" />
+  </wsdl:message>
+  <wsdl:message name="IRiverSystemService_OnError_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnError" />
+  </wsdl:message>
+  <wsdl:portType name="IRiverSystemService">
+    <wsdl:operation name="SetReturnBaseSIUnits">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetReturnBaseSIUnits" message="tns:IRiverSystemService_SetReturnBaseSIUnits_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetReturnBaseSIUnitsResponse" message="tns:IRiverSystemService_SetReturnBaseSIUnits_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRestorable">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetRestorable" message="tns:IRiverSystemService_SetRestorable_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetRestorableResponse" message="tns:IRiverSystemService_SetRestorable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Restore">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Restore" message="tns:IRiverSystemService_Restore_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/RestoreResponse" message="tns:IRiverSystemService_Restore_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Load">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Load" message="tns:IRiverSystemService_Load_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/LoadResponse" message="tns:IRiverSystemService_Load_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SaveAs" message="tns:IRiverSystemService_SaveAs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SaveAsResponse" message="tns:IRiverSystemService_SaveAs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLoadedProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetLoadedProject" message="tns:IRiverSystemService_GetLoadedProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetLoadedProjectResponse" message="tns:IRiverSystemService_GetLoadedProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Run">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Run" message="tns:IRiverSystemService_Run_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/RunResponse" message="tns:IRiverSystemService_Run_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Step">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Step" message="tns:IRiverSystemService_Step_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/StepResponse" message="tns:IRiverSystemService_Step_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStep">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetStep" message="tns:IRiverSystemService_GetStep_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetStepResponse" message="tns:IRiverSystemService_GetStep_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMetaParameters">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetMetaParameters" message="tns:IRiverSystemService_GetMetaParameters_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetMetaParametersResponse" message="tns:IRiverSystemService_GetMetaParameters_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetMetaParameterValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetMetaParameterValue" message="tns:IRiverSystemService_SetMetaParameterValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetMetaParameterValueResponse" message="tns:IRiverSystemService_SetMetaParameterValue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTimeSeries">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetAllTimeSeries" message="tns:IRiverSystemService_GetAllTimeSeries_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetAllTimeSeriesResponse" message="tns:IRiverSystemService_GetAllTimeSeries_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeSeries">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeSeries" message="tns:IRiverSystemService_GetTimeSeries_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeSeriesResponse" message="tns:IRiverSystemService_GetTimeSeries_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeStepValue">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeStepValue" message="tns:IRiverSystemService_GetTimeStepValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeStepValueResponse" message="tns:IRiverSystemService_GetTimeStepValue_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Reset" message="tns:IRiverSystemService_Reset_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/ResetResponse" message="tns:IRiverSystemService_Reset_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Finish">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/Finish" message="tns:IRiverSystemService_Finish_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/FinishResponse" message="tns:IRiverSystemService_Finish_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="QueryProjectDescription">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/QueryProjectDescription" message="tns:IRiverSystemService_QueryProjectDescription_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/QueryProjectDescriptionResponse" message="tns:IRiverSystemService_QueryProjectDescription_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetCurrentTime" message="tns:IRiverSystemService_GetCurrentTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetCurrentTimeResponse" message="tns:IRiverSystemService_GetCurrentTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeStep">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeStep" message="tns:IRiverSystemService_GetTimeStep_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetTimeStepResponse" message="tns:IRiverSystemService_GetTimeStep_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectDescription">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetProjectDescription" message="tns:IRiverSystemService_GetProjectDescription_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetProjectDescriptionResponse" message="tns:IRiverSystemService_GetProjectDescription_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScenarioStartTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetScenarioStartTime" message="tns:IRiverSystemService_GetScenarioStartTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetScenarioStartTimeResponse" message="tns:IRiverSystemService_GetScenarioStartTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioStartTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioStartTime" message="tns:IRiverSystemService_SetScenarioStartTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioStartTimeResponse" message="tns:IRiverSystemService_SetScenarioStartTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetScenarioEndTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/GetScenarioEndTime" message="tns:IRiverSystemService_GetScenarioEndTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/GetScenarioEndTimeResponse" message="tns:IRiverSystemService_GetScenarioEndTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioEndTime">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioEndTime" message="tns:IRiverSystemService_SetScenarioEndTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioEndTimeResponse" message="tns:IRiverSystemService_SetScenarioEndTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioInputSet">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioInputSet" message="tns:IRiverSystemService_SetScenarioInputSet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/SetScenarioInputSetResponse" message="tns:IRiverSystemService_SetScenarioInputSet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnProgressChanged">
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/OnProgressChanged" message="tns:IRiverSystemService_OnProgressChanged_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnError">
+      <wsdl:output wsaw:Action="http://tempuri.org/IRiverSystemService/OnError" message="tns:IRiverSystemService_OnError_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBindingEndpoint" type="tns:IRiverSystemService">
+    <wsp:PolicyReference URI="#NetTcpBindingEndpoint_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SetReturnBaseSIUnits">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetReturnBaseSIUnits" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRestorable">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetRestorable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Restore">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Restore" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Load">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Load" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAs">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SaveAs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLoadedProject">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetLoadedProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Run">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Run" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Step">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Step" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStep">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMetaParameters">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetMetaParameters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetMetaParameterValue">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetMetaParameterValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTimeSeries">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetAllTimeSeries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeSeries">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetTimeSeries" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeStepValue">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetTimeStepValue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Reset">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Reset" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Finish">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/Finish" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="QueryProjectDescription">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/QueryProjectDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentTime">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetCurrentTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTimeStep">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetTimeStep" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProjectDescription">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetProjectDescription" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScenarioStartTime">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetScenarioStartTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioStartTime">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetScenarioStartTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetScenarioEndTime">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/GetScenarioEndTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioEndTime">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetScenarioEndTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetScenarioInputSet">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/SetScenarioInputSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnProgressChanged">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/OnProgressChanged" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnError">
+      <soap12:operation soapAction="http://tempuri.org/IRiverSystemService/OnError" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RiverSystemService">
+    <wsdl:port name="NetTcpBindingEndpoint" binding="tns:NetTcpBindingEndpoint">
+      <soap12:address location="net.tcp://localhost:8523/eWater/Services/RiverSystemService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8523/eWater/Services/RiverSystemService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

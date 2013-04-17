@@ -31,9 +31,14 @@ namespace SourceFEWSAdapter.Commands
                 File.Delete(sourceOutput);
             }
 
-            string mode = runSettings.executionMode();
+            string mode = runSettings.ExecutionMode();
 
-            if (mode != "")
+            if (mode == "")
+            {
+                if(runSettings.ConfiguredServer()!="")
+                    diagnostics.Log(3,string.Format("Running locally because configured server ({0}) is unavailable",runSettings.ConfiguredServer()));
+            }
+            else
                 sourceProject = "";
 
             string sourceCommand = string.Format("-p \"{0};;{1};{2}\" {4} -o {3}",

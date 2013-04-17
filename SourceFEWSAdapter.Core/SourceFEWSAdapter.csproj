@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,11 +56,55 @@
     <Compile Include="FEWSPI\DateTimeComplexType.cs" />
     <Compile Include="FEWSPI\PI.cs" />
     <Compile Include="FEWSPI\RunComplexType.cs" />
+    <Compile Include="SourceServiceCallback.cs" />
     <Compile Include="LoggedExecution.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\SourceService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="SourceServiceUtils.cs" />
     <Compile Include="Tests\TestPIProxy.cs" />
     <Compile Include="TIMEProxy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\SourceService\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SourceService\RiverSystem.Services.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SourceService\service.wsdl" />
+    <None Include="Service References\SourceService\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SourceService\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SourceService\SourceFEWSAdapter.SourceService.TimeSeriesResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SourceService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SourceService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SourceService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SourceService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

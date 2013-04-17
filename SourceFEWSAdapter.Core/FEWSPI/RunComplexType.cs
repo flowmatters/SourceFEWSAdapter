@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using SourceFEWSAdapter.Core;
+using SourceFEWSAdapter.SourceService;
 
 namespace SourceFEWSAdapter.FEWSPI
 {
@@ -78,18 +81,40 @@ namespace SourceFEWSAdapter.FEWSPI
             }
         }
 
-        public string executionMode()
+        public string ExecutionMode()
+        {
+            string serverAddress = FinderServer();
+
+            if (serverAddress == "")
+                return "";
+
+            return String.Format("-m Client -a {0}", serverAddress);
+        }
+
+        private string FinderServer()
+        {
+            string configuredServer = ConfiguredServer();
+
+            if (configuredServer != "")
+            {
+                if (!SourceServiceUtils.SourceServerExists(configuredServer))
+                    return "";
+            }
+
+            return configuredServer;
+        }
+
+        public string ConfiguredServer()
         {
             string port = Property("Port");
             if (port != null)
-                return String.Format("-m Client -a net.tcp://localhost:{0}/eWater/Services/RiverSystemService", port);
+                return String.Format("net.tcp://localhost:{0}/eWater/Services/RiverSystemService", port);
 
             string uri = Property("URI");
             if (uri != null)
-                return String.Format("-m Client -a {0}", uri);
+                return uri;
 
             return "";
-
         }
     }
 }
