@@ -61,7 +61,10 @@ namespace SourceFEWSAdapter.Core
 
         private static string ParameterName(string name)
         {
-            return NameComponents(name).Length>2?NameComponents(name)[2]:name;
+            string[] components = NameComponents(name);
+            if (components.Last() == "Flow")
+                return components[components.Length - 2];
+            return NameComponents(name).Last();//>3?NameComponents(name)[2]:name;
         }
 
         private static string LocationName(string name)
