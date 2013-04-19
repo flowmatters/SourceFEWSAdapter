@@ -27,7 +27,7 @@ public class SourceServer {
 
 	public void start() throws IOException, ParseException
 	{
-		String sourceExecutablePath = GlobalProperties.get("SOURCE_EXE_PATH");
+		String sourceExecutablePath = selectSourceExecutable();
 		
 		
 		String[] args = new String[]{sourceExecutablePath, "-p", GlobalProperties.resolvePropertyTags(projectFile), "-m", "Server",
@@ -44,7 +44,19 @@ public class SourceServer {
 		outputStream = process.getOutputStream();
 		started = true;
 	}
+
+	private String selectSourceExecutable() {
+		if(windows64())
+			return GlobalProperties.get("SOURCE_64EXE_PATH");
+		return GlobalProperties.get("SOURCE_32EXE_PATH");
+	}
 	
+	private boolean windows64() {
+		if(System.getProperty("os.name").contains("Windows"))
+			return System.getenv("ProgramFiles(x86)")!=null;
+		return System.getProperty("os.arch").indexOf("64") != -1;
+	}
+
 	private String commandLine(String[] command) {
 		String result = "";
 		for(String s : command)
