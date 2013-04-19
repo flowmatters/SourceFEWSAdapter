@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Commands\PostAdapter.cs" />
     <Compile Include="Commands\PreAdapter.cs" />
+    <Compile Include="Commands\ProbeServer.cs" />
     <Compile Include="Commands\SimulationAdapter.cs" />
     <Compile Include="Diagnostics.cs" />
     <Compile Include="FEWSPIProxy.cs" />

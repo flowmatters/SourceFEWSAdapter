@@ -15,7 +15,8 @@ namespace SourceFEWSAdapter
             {
                 {"preadapter", PreAdapter.Run},
                 {"postadapter", PostAdapter.Run},
-                {"simulation",SimulationAdapter.Run}
+                {"simulation",SimulationAdapter.Run},
+                {"probe",ProbeServer.Run}
             };
 
         public static int Main(string[] args)

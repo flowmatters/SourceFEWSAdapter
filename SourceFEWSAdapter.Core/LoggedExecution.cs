@@ -14,8 +14,13 @@ namespace SourceFEWSAdapter.Core
         public static int Program(string[] args, Action<RunComplexType, Diagnostics, string[]> programAction )
         {
             bool exception = false;
-            var runSettings = FEWSPIProxy.ReadRunFile(args[1]);
-            var diagnostics = new Diagnostics(runSettings.outputDiagnosticFile,args[0]);
+            RunComplexType runSettings = null;
+            Diagnostics diagnostics = null;
+            if (File.Exists(args[1]))
+            {
+                runSettings = FEWSPIProxy.ReadRunFile(args[1]);
+                diagnostics = new Diagnostics(runSettings.outputDiagnosticFile, args[0]);
+            }
 
             try
             {
@@ -28,7 +33,7 @@ namespace SourceFEWSAdapter.Core
             }
             finally
             {
-                diagnostics.Save();
+                if(diagnostics!=null) diagnostics.Save();
             }
 
             return exception ? 1 : 0;
