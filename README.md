@@ -43,8 +43,19 @@ properties() {
 The adapter is currently quite specific about how you set up your Source model. These requirements should be relaxed in the future, but for the time being, the Source model should be configured such that:
 
 * All input time series inputs are setup through Data Sources (default on recent versions of Source) and set to reload on run
-* Those data sources should be configured as multi-column csv files, with all inputs for a given parameter (eg rainfall) in the same file, regardless of how many locations are involved. That is, the rainfall for all sites should be in a single csv file
-* Within those files, columns should be sorted by the location name (from FEWS).
+* The model should be configured in "planning mode" as opposed to operations mode. In recent versions of Source you can switch an operations scenario to planning mode using the Tools|River Operations menu. An implication of planning mode is that operations-mode forecasts are not available. These should be configured from FEWS and input as time series.
+* Those data sources should be configured as multi-column csv files, with either all inputs in one file or with a separate file for each parameter type (eg rainfall) with all relevant sites in the one file.
+* Within any given csv file, the SourceFEWSAdapter will sort columns by location name and then by parameter name. If you wish to force a different order, you can use an IdMap in FEWS to prepend a column number to the location name, as in the following example:
+
+```xml
+<map internalLocation="J606256A" internalParameter="E.obs" externalLocation="19_J606256A" externalParameter="E.obs"/>
+<map internalLocation="J606256A" internalParameter="H.obs" externalLocation="20_J606256A" externalParameter="H.obs"/>
+```
+
+## Maintaining the Source model
+
+It is important to realise that the setup of your Source model is *coupled* to your FEWS configuration: Changes in one can affect the other and in some cases break the linkage.
+
 
 ## Limitations
 
