@@ -25,6 +25,35 @@ The client server mode of Source requires more configuration, but offers faster 
 
 The performance gains from client server mode will vary depending on the characteristics of the Source model, but speedups of a factor of five have been observed. This is due to the time that the standalone version of Source takes to load the model files on each run.
 
+### Configuring the Source Servers
+
+The Source Server Monitor is a FEWS Explorer plugin for starting and stopping Source servers for use with the core adapter. The Monitor needs to be (a) configured to run when FEWS starts up (from Explorer.xml) and (b) a mapping of Source project files (.rsproj) to Server port numbers.
+
+In Explorer.xml, add an explorerTask to run the Monitor. The Monitor should be passed the name of a CSV configuration file, as described below
+
+```xml
+<explorerTask name="Source Server Monitor">
+	<arguments>SourceServers.csv</arguments>
+	<taskClass>au.flowmatters.fews.plugins.source.SourceServiceController</taskClass>
+	<toolbarTask>false</toolbarTask>
+	<menubarTask>false</menubarTask>
+	<allowMultipleInstances>false</allowMultipleInstances>
+	<permission>forecaster</permission>
+	<toolWindow>true</toolWindow>
+  	<loadAtStartup>true</loadAtStartup>
+</explorerTask>
+```
+
+The CSV configuration file should be placed in the PiClientConfigFiles folder and should be populated with two column rows, where each row corresponds to an instance of the Source server:
+
+1. The path to a Source project file (.rsproj), typically referenced relative to a system variable such as `%REGION_HOME`, and
+2. A port number for the Source server to listen to.
+
+```csv
+%REGION_HOME%\Modules\source\catchment1\model\catchment1.rsproj,8765,
+%REGION_HOME%\Modules\source\catchment2\model\catchment2.rsproj,8766,
+```
+
 ## Basic Operation
 
 The Source FEWS adapter builds as a single executable that can respond to multiple commands, issued as the first command line argument. The following commands are understood and map closely to the GeneralAdapter preprocess, simulate and post-process steps:
