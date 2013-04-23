@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/Users/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_FEWS.jar"/>
-	<classpathentry kind="lib" path="/Users/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_Util.jar"/>
-	<classpathentry kind="lib" path="/Users/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_FEWS_DataStore.jar"/>
-	<classpathentry kind="lib" path="/Users/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib"/>
+	<classpathentry kind="lib" path="Z:/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_FEWS.jar"/>
+	<classpathentry kind="lib" path="Z:/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_FEWS_DataStore.jar"/>
+	<classpathentry kind="lib" path="Z:/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/Delft_Util.jar"/>
+	<classpathentry kind="lib" path="Z:/joelrahman/src/OSS/SourceFEWSAdapter/SourceServiceMonitor/lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
