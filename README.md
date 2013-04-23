@@ -2,7 +2,28 @@
 
 The adapter is used within [GeneralAdapter] modules in [FEWS][fews] to invoke the [eWater Source][source] model as a simulation engine.
 
-Configuration requires an understanding of the general process for configuring [GeneralAdapters][GeneralAdapter]. This document just covers specific characteristics of the Source FEWS adapter.
+There are two main components involved:
+
+1. The core adapter, which works with the [GeneralAdapter] module in FEWS and handles data exchange with Source.
+2. A plugin to main FEWS Explorer user interface, which is used to start up and shutdown instances of the Source server when using FEWS in either Standalone or Operator Client mode.
+
+This document covers the basics of compiling the two components, configuring the components in FEWS and how to setup and maintain the Source model.
+
+Configuration requires a general understanding of FEWS configuration and in particular the process for configuring [GeneralAdapters][GeneralAdapter]. This document just covers specific characteristics of the Source FEWS adapter.
+
+## Building the Adapter and the Monitor
+
+The core adapter is C#/.NET based and can be built with Visual Studio 2010. The adapter references TIME.dll, which can found in the Source installation directory.
+
+The FEWS Explorer plugin is written Java. At the present time, the plugin is configured as an Eclipse project. The plugin references several JARs from the FEWS binary directory.
+
+## Standalone and Client Server Configuration
+
+The adapter can be configured to call Source as either a standalone program or in client server mode. Importantly, this distinction is independent of the FEWS configuration: A standalone FEWS can call the client server Source and vice versa.
+
+The client server mode of Source requires more configuration, but offers faster performance, particularly when running models multiple times, such as in river operations scenarios. Client-server mode requires setting up one instance of the Source server software for each Source model linked to FEWS. This setup can be handled externally to FEWS, or can be configured to occur on startup of FEWS using the Explorer plugin.
+
+The performance gains from client server mode will vary depending on the characteristics of the Source model, but speedups of a factor of five have been observed. This is due to the time that the standalone version of Source takes to load the model files on each run.
 
 ## Basic Operation
 
