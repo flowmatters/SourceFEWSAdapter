@@ -20,12 +20,11 @@ public class SourceServerStarter extends Thread {
         for(SourceServer s : servers)
         {
         	log.info("Starting a server for " + s.getProjectFile() + " on port " + Integer.toString(s.getPortNumber()));
-        	try {
+			try {
 				s.start();
-			} catch (IOException e) {
-				
-			} catch (ParseException e) {
-			}
+			} catch (IOException | ParseException | InterruptedException e) {
+				log.error("Error starting server on port " + Integer.toString(s.getPortNumber()),e);
+			}        	
         }
 	}
 }
