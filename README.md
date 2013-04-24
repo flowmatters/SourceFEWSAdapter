@@ -54,6 +54,16 @@ The CSV configuration file should be placed in the PiClientConfigFiles folder an
 %REGION_HOME%\Modules\source\catchment2\model\catchment2.rsproj,8766,
 ```
 
+### Required Global Properties
+
+The Monitor will check for the following global properties (eg defined in `sa_global.properties` or in `oc_global.properties`):
+
+* `SOURCE_ADAPTER_PATH` containing the path the Source Adapter
+* `SOURCE_32EXE_PATH` containing the path to the 32 bit RiverSystem.CommandLine.exe (required for 32 bit installations) and
+* `SOURCE_64EXE_PATH` containing the path to the 64 bit RiverSystem.CommandLine.exe (required for 64 bit installations)
+
+These are **required** for the startup of the Monitor, but they are also convenient properties to reference from the General Adapter.
+
 ## Basic Operation
 
 The Source FEWS adapter builds as a single executable that can respond to multiple commands, issued as the first command line argument. The following commands are understood and map closely to the GeneralAdapter preprocess, simulate and post-process steps:
