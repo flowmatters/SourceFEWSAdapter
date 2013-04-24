@@ -101,7 +101,7 @@ The adapter is currently quite specific about how you set up your Source model. 
 
 * All input time series inputs are setup through Data Sources (default on recent versions of Source) and set to reload on run
 * The model should be configured in "planning mode" as opposed to operations mode. In recent versions of Source you can switch an operations scenario to planning mode using the Tools|River Operations menu. An implication of planning mode is that operations-mode forecasts are not available. These should be configured from FEWS and input as time series.
-* Those data sources should be configured as multi-column csv files, with either all inputs in one file or with a separate file for each parameter type (eg rainfall) with all relevant sites in the one file.
+* The data sources should be configured as multi-column csv files, with either all inputs in one file or with a separate file for each parameter type (eg rainfall) with all relevant sites in the one file.
 * Within any given csv file, the SourceFEWSAdapter will sort columns by location name and then by parameter name. If you wish to force a different order, you can use an IdMap in FEWS to prepend a column number to the location name, as in the following example:
 
 ```xml
@@ -113,12 +113,17 @@ The adapter is currently quite specific about how you set up your Source model. 
 
 It is important to realise that the setup of your Source model is *coupled* to your FEWS configuration: Changes in one can affect the other and in some cases break the linkage.
 
+Key things to watch for:
+
+* The data mappings in Source are to columns, so if the column order changes, the data mappings will change **without warning**.
+* Adding and removing time series to the FEWS export will affect the input mapping. Importantly, if you are exporting time series based on a locationSet and that composition of that locationSet changes, then the export will change and the Source linkage will break. **In many case this change will not produce an error message due to Source still having enough columns**
 
 ## Limitations
 
 There are a few big things that the adapter doesn't currently support and a few gotchas to be aware of.
 
 * Only time series can be modified, there is currently no provision for changing Source model parameters (though this is planned for the adapter)
+* Source cannot current start rainfall runoff models with an explicitly defined starting state (eg for soil moisture). This results in a need to run relatively long warmup periods for forecasts. 
 
 ## License
 
