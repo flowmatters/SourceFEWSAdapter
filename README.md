@@ -62,22 +62,24 @@ The Source FEWS adapter builds as a single executable that can respond to multip
 * **simulation** invokes the Source command line runner with time-window settings from the FEWS run settings file
 * **postadapter** transforms the Source outputs to FEWS PI time series for importing back into FEWS.
 
-Thus, the Source FEWS adapter requires three executeActivity steps in the GeneralAdapter. In each case, the command should be first command line argument to the program, and the path to the FEWS run settings file should be the second (implying that your GeneralAdapter will need an exportRunFileActivity element). That's all that is required for the preadapter and postadapter commands. The simulation command requires three additional arguments:
+Thus, the Source FEWS adapter requires three executeActivity steps in the GeneralAdapter. In each case, the command should be first command line argument to the program, and the path to the FEWS run settings file should be the second (implying that your GeneralAdapter will need an exportRunFileActivity element). That's all that is required for the three main commands. 
 
-* the path to the Source command line program (ie RiverSystem.CommandLine.exe)
-* the path to the Source model file (ie the .rsproj file)
-* a path to the file to be used for saving Source results (ie a .csv) (TODO: This last one should be dropped from here because it's also required in the FEWS Run Settings file, see below) 
+A fourth command **probe** is available to check the status of a running Source server.
 
 ## The FEWS Run Settings File
  
-As noted, above, the adapter requires you to configure a Run Settings file to be exported from FEWS. Your exportRunFileActivity element needs to configure some custom property elements, which vary depending on how the Source model is configured and how you plan to run the model (Client Server or Standalone). Properties include:
+As noted, above, the adapter requires you to configure a Run Settings file to be exported from FEWS. This file captures the information that the adapter needs to both locate the Source model or server and to manage the information exchange with Source.
 
-1. name the `SourceOutputFile` (which will get read and converted to FEWS PI format),
-1. to map Source input time series to a CSV file, using either a single file for all inputs (`SourceInputFile`) or splitting inputs based on parameter (`ExpectedFile_<parameter_name>`),
-1. optionally specify a simulation `TimeStep` if not daily, and
+The General Adapter should include an exportRunFileActivity element, which needs to configure some custom property elements depending on how the Source model is configured and how you plan to run the model (Client Server or Standalone).
+
+1. `SourceOutputFile` names the csv file that Source will produce (which will get read and converted to FEWS PI format),
+1. `SourceInputFile` names the CSV file that Source will read (if all time series are imported from one file). Alternatively, the Source inputs can be split based on parameter using a series of `ExpectedFile_<parameter_name>` properties,
+1. `Source_32EXE` and `Source_64EXE` locate the 32 bit and 64 bit versions of the `RiverSystem.CommandLine.exe` program. You need both of these if the configuration could be deployed to both 32bit and 64bit systems (including standalone, OC and FSS).
+1. `RSPROJ` provides the path to the Source project file.
+1. optionally specify a simulation `TimeStep` in seconds, and
 1. optionally specify either a `Port` or a `URI` for an existing Source server. 
- 
-The Source output file is specified using a property with key='SourceOutputFile'. Parameters are mapped to Source input files using properties where the key follows the pattern 'ExpectedFile_propertyName', as in the following example (in [groovyFEWS] form):
+
+The following example (in [groovyFEWS] form) illustrates many of the properties:
  
 ```groovy
 properties() {
@@ -85,8 +87,13 @@ properties() {
    string(key:'ExpectedFile_Flow', value:'observedflow.csv')
    string(key:'TimeStep',value:3600) // Optional time step (in seconds)
    string(key:'Port',value:9876) // When the Source service is hosted locally
+   string(key:'RSPROJ',value:'%ROOT_DIR%\\mode\\modelfile.rsproj')
+   string(key:'Source_32EXE',value:'$SOURCE_32EXE_PATH$')
+   string(key:'Source_64EXE',value:'$SOURCE_64EXE_PATH$')
 }
 ```
+
+The `RSPROJ` property is not used when Source is called in client server mode (because the project is loaded on the Server). However it is useful to still specify the path here because the Adapter will try to fall back to standalone mode when the Source server is unavailable.
 
 ## Configuring the Source model
 
