@@ -108,6 +108,36 @@ The adapter is currently quite specific about how you set up your Source model. 
 <map internalLocation="J606256A" internalParameter="E.obs" externalLocation="19_J606256A" externalParameter="E.obs"/>
 <map internalLocation="J606256A" internalParameter="H.obs" externalLocation="20_J606256A" externalParameter="H.obs"/>
 ```
+## Dealing with Missing Values
+
+It is important to configure FEWS to deal correctly with any missing values that could be passed to Source.
+
+Most inputs in Source require complete series and will not work with missing values. Importantly, the command line version of Source doesn't appear to check for missing values and will just treat the missing value (typically -9999) as a regular input!
+
+The Adapter **passes** any missing values from FEWS to Source as an input: **no checking takes place in the adapter**. This is because Source is able to accept missing values for some inputs (such as observed streamflow at gauging stations) and the adapter has no information about which inputs can and cannot include gaps.
+
+Where Source model inputs cannot be null, the appropriate parameter should be configured with `allowMissing="false"` in Parameters.xml, and the corresponding export should be configured with `checkMissing=true` in the GeneralAdapter.
+
+```xml
+<!--Parameters -->
+<parameter id="P.obs" name="Observed Precipitation">
+	<shortName>P.obs</shortName>
+	<allowMissing>false</allowMissing>
+</parameter>
+```
+
+```xml
+<!-- General Adapter -->
+<exportTimeSeriesActivity>
+	<exportFile>Rain.xml</exportFile>
+	<timeSeriesSets>
+		<!-- ... -->
+		<parameterId>P.obs</parameterId>
+		<!-- ... -->
+	</timeSeriesSets>
+	<checkMissing>true</checkMissing>
+</exportTimeSeriesActivity>
+```
 
 ## Maintaining the Source model
 
