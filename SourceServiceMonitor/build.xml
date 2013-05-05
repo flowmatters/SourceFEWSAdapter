@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     May 5, 2013 3:56:52 PM                                                        
+
+     SourceServerMonitor    
+     FEWS Explorer plugin for starting + stopping instances of the Source WCF Service
+                   
+     joel@flowmatters.com.au                                                                
+     ====================================================================== -->
+<project name="SourceServerMonitor" default="default">
+    <description>
+            FEWS Explorer plugin for starting + stopping instances of the Source WCF Service
+    </description>
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+    <target name="default" description="FEWS Explorer plugin for starting + stopping instances of the Source WCF Service">
+        <javac srcdir="src"
+         destdir="classes"
+         compiler="javac1.7"
+         classpath="lib/Delft_FEWS.jar;lib/Delft_FEWS_DataStore.jar;lib/log4j-1.2.14.jar;lib/Delft_Util.jar"
+         debug="on"
+	/>
+    	<jar destfile="lib/SourceServiceMonitor.jar" basedir="classes"></jar>
+    </target>
+
+</project>
