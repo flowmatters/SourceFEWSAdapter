@@ -48,6 +48,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\LoadPluginAdapter.cs" />
     <Compile Include="Commands\PostAdapter.cs" />
     <Compile Include="Commands\PreAdapter.cs" />
     <Compile Include="Commands\ProbeServer.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="FEWSPI\DateTimeComplexType.cs" />
     <Compile Include="FEWSPI\PI.cs" />
     <Compile Include="FEWSPI\RunComplexType.cs" />
+    <Compile Include="Keys.cs" />
     <Compile Include="SourceServiceCallback.cs" />
     <Compile Include="LoggedExecution.cs" />
     <Compile Include="Program.cs" />

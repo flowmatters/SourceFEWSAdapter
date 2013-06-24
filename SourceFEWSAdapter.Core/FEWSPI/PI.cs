@@ -2170,12 +2170,12 @@ namespace SourceFEWSAdapter.FEWSPI {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.wldelft.nl/fews/PI")]
-    [System.Xml.Serialization.XmlRootAttribute("Run", Namespace="http://www.wldelft.nl/fews/PI", IsNullable=false)]
+    [GeneratedCode("xsd", "4.0.30319.1")]
+    [Serializable()]
+    [DebuggerStepThrough()]
+    [DesignerCategory("code")]
+    [XmlType(Namespace="http://www.wldelft.nl/fews/PI")]
+    [XmlRoot("Run", Namespace="http://www.wldelft.nl/fews/PI", IsNullable=false)]
     public partial class RunComplexType {
         
         private logLevelString logLevelField;
@@ -2235,7 +2235,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnore()]
         public bool logLevelSpecified {
             get {
                 return this.logLevelFieldSpecified;
@@ -2306,7 +2306,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputParameterFile")]
+        [XmlElement("inputParameterFile")]
         public string[] inputParameterFile {
             get {
                 return this.inputParameterFileField;
@@ -2317,7 +2317,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputStateDescriptionFile")]
+        [XmlElement("inputStateDescriptionFile")]
         public string[] inputStateDescriptionFile {
             get {
                 return this.inputStateDescriptionFileField;
@@ -2328,7 +2328,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputTimeSeriesFile")]
+        [XmlElement("inputTimeSeriesFile")]
         public string[] inputTimeSeriesFile {
             get {
                 return this.inputTimeSeriesFileField;
@@ -2339,7 +2339,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputMapStackFile")]
+        [XmlElement("inputMapStackFile")]
         public string[] inputMapStackFile {
             get {
                 return this.inputMapStackFileField;
@@ -2350,7 +2350,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputNetcdfFile")]
+        [XmlElement("inputNetcdfFile")]
         public string[] inputNetcdfFile {
             get {
                 return this.inputNetcdfFileField;
@@ -2361,7 +2361,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputLongitudinalProfilesFile")]
+        [XmlElement("inputLongitudinalProfilesFile")]
         public string[] inputLongitudinalProfilesFile {
             get {
                 return this.inputLongitudinalProfilesFileField;
@@ -2372,7 +2372,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("inputRatingCurveFile")]
+        [XmlElement("inputRatingCurveFile")]
         public string[] inputRatingCurveFile {
             get {
                 return this.inputRatingCurveFileField;
@@ -2403,7 +2403,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("outputTimeSeriesFile")]
+        [XmlElement("outputTimeSeriesFile")]
         public string[] outputTimeSeriesFile {
             get {
                 return this.outputTimeSeriesFileField;
@@ -2414,7 +2414,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("outputMapStackFile")]
+        [XmlElement("outputMapStackFile")]
         public string[] outputMapStackFile {
             get {
                 return this.outputMapStackFileField;
@@ -2425,7 +2425,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("outputNetcdfFile")]
+        [XmlElement("outputNetcdfFile")]
         public string[] outputNetcdfFile {
             get {
                 return this.outputNetcdfFileField;
@@ -2436,7 +2436,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("outputLongitudinalProfilesFile")]
+        [XmlElement("outputLongitudinalProfilesFile")]
         public string[] outputLongitudinalProfilesFile {
             get {
                 return this.outputLongitudinalProfilesFileField;
@@ -2457,7 +2457,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute()]
         public versionString version {
             get {
                 return this.versionField;

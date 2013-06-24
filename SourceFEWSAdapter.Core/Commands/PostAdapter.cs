@@ -12,7 +12,7 @@ namespace SourceFEWSAdapter.Commands
         {
             TimeSeries[] results =
                 (TimeSeries[])
-                NonInteractiveIO.Load(runSettings.workDir + "\\" + runSettings.Property("SourceOutputFile"));
+                NonInteractiveIO.Load(runSettings.workDir + "\\" + runSettings.Property(Keys.OUTPUT_FILE));
             diagnostics.Log(3,string.Format("Loaded {0} time series",results.Length));
 
             TimeSeriesCollectionComplexType fewsTimeSeriesCollection = TIMEProxy.FromTimeSeriesCollection(results,runSettings.timeZone);

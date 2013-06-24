@@ -55,11 +55,11 @@ namespace SourceFEWSAdapter.FEWSPI
             string marker = "ExpectedFile_";
             foreach (var property in properties.Items)
             {
-                if (GetKey(property).IndexOf(marker + parameter, System.StringComparison.Ordinal) == 0)
+                if (GetKey(property).IndexOf(marker + parameter, StringComparison.Ordinal) == 0)
                     return GetValue(property);
             }
 
-            return Property("SourceInputFile") ?? "defaultFile.csv";
+            return Property(Keys.INPUT_FILE) ?? "defaultFile.csv";
         }
 
         public TimeSeriesComplexType[] AllInputSeries()
@@ -76,8 +76,8 @@ namespace SourceFEWSAdapter.FEWSPI
         {
             get
             {
-                string timeStepProperty = Property("TimeStep");
-                return timeStepProperty == null ? 86400 : int.Parse(timeStepProperty);
+                string timeStepProperty = Property(Keys.TIMESTEP);
+                return timeStepProperty == null ? 86400 : Int32.Parse(timeStepProperty);
             }
         }
 
@@ -115,6 +115,11 @@ namespace SourceFEWSAdapter.FEWSPI
                 return uri;
 
             return "";
+        }
+
+        public string SourceExeToUse()
+        {
+            return Property(Environment.Is64BitOperatingSystem ? Keys.SOURCE64 : Keys.SOURCE32);
         }
     }
 }

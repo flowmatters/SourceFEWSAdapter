@@ -20,10 +20,10 @@ namespace SourceFEWSAdapter.Commands
             if (runSettings.TimeStepInSeconds != 86400)
                 dateFormat += " HH:mm:ss";
 
-            string sourceExe = SourceExeToUse(runSettings);
-            string sourceProject = runSettings.Property("RSPROJ");
+            string sourceExe = runSettings.SourceExeToUse();
+            string sourceProject = runSettings.Property(Keys.PROJECT_FILE);
 
-            string sourceOutput = runSettings.Property("SourceOutputFile");
+            string sourceOutput = runSettings.Property(Keys.OUTPUT_FILE);
             
             if (File.Exists(sourceOutput))
             {
@@ -70,11 +70,6 @@ namespace SourceFEWSAdapter.Commands
             }
 
             diagnostics.Log(3,"All done");
-        }
-
-        private static string SourceExeToUse(RunComplexType runSettings)
-        {
-            return runSettings.Property(Environment.Is64BitOperatingSystem ? "Source_64EXE" : "Source_32EXE");
         }
     }
 }

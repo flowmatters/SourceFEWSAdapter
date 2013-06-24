@@ -87,14 +87,14 @@ namespace SourceFEWSAdapter.Core
         {
             return new TimeStepComplexType
                 {
-                    multiplier = "86400",
+                    multiplier = TimeStepInSeconds(timeStep).ToString(),
                     unit = timeStepUnitEnumStringType.second
                 };
-            //return new TimeStepComplexType
-            //    {
-            //        unit = timeStepBaseConversion[timeStep],
-            //        multiplier = "1"
-            //    };
+        }
+
+        private static int TimeStepInSeconds(TimeStep timeStep)
+        {
+            return (int) timeStep.GetTimeSpan().TotalSeconds;
         }
 
         private static string PIUnits(Unit units)
