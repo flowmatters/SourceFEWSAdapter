@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.FEWSPI;
+using System.Threading;
 
 namespace SourceFEWSAdapter.Commands
 {
@@ -16,7 +17,10 @@ namespace SourceFEWSAdapter.Commands
             var start = DateTimeComplexType.DateTimeFromPI(runSettings.startDateTime);
             var end = DateTimeComplexType.DateTimeFromPI(runSettings.endDateTime);
             
-            string dateFormat = "dd/MM/yyyy";
+//            string dateFormat = "dd/MM/yyyy";
+            var dtf = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
+
+            string dateFormat = dtf.ShortDatePattern; // "MM/dd/yyyy";
             if (runSettings.TimeStepInSeconds != 86400)
                 dateFormat += " HH:mm:ss";
 
