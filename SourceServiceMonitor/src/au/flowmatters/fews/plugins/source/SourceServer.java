@@ -78,11 +78,11 @@ public class SourceServer {
 		String sourceAdapterPath = GlobalProperties.get(ADAPTER_PROPERTY);
 		log.info("Testing for existing service endpoint at " + serverEndpoint());
 		
-//		if((sourceAdapterPath==null)||(sourceAdapterPath==""))
-//		{
-//			log.error(ADAPTER_PROPERTY +" not set in properties file");
-//			return true;
-//		}
+		if((sourceAdapterPath==null)||(sourceAdapterPath==""))
+		{
+			log.error(ADAPTER_PROPERTY +" not set in properties file");
+			return true;
+		}
 
 		String[] args = new String[]{sourceAdapterPath,"probe",serverEndpoint()};
 		
@@ -92,6 +92,7 @@ public class SourceServer {
 		BufferedReader probeInputs = new BufferedReader(new InputStreamReader(probeProcess.getInputStream()));
 		probeProcess.waitFor();
 		String result = probeInputs.readLine();
+		if(result==null) return true;
 		return result.indexOf("OK")==0;
 	}
 
