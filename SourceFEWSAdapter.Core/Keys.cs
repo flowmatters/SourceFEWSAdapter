@@ -14,5 +14,6 @@ namespace SourceFEWSAdapter
         public const string SOURCE32 = "Source_32EXE";
         public const string TIMESTEP = "TimeStep";
         public const string INPUT_FILE = "SourceInputFile";
+        public const string FORCED_TIMESTAMP = "ForceTimeStamp";
     }
 }

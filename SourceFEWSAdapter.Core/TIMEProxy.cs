@@ -12,30 +12,29 @@ namespace SourceFEWSAdapter.Core
 {
     public class TIMEProxy
     {
-        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection, double timeZone)
+        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection, double timeZone,string forcedTimeStamp)
         {
             TimeSeriesCollectionComplexType result = new TimeSeriesCollectionComplexType();
-            IEnumerable<TimeSeriesComplexType> piCollection = collection.Select(FromTimeSeries);
+            IEnumerable<TimeSeriesComplexType> piCollection = collection.Select(series => FromTimeSeries(series,forcedTimeStamp));
             result.series = piCollection.ToArray();
             result.timeZone = timeZone;
             return result;
         }
 
-        public static TimeSeriesComplexType FromTimeSeries(TimeSeries ts)
+        public static TimeSeriesComplexType FromTimeSeries(TimeSeries ts,string forcedTimeStamp)
         {
             TimeSeriesComplexType result = new TimeSeriesComplexType( );
 
             string locationName = LocationName(ts.name);
-
             result.header = new HeaderComplexType
                 {
                     type = timeSeriesType.mean,
                     locationId = locationName,
                     //stationName = locationName,
-                    startDate = new DateTimeComplexType {DateTime = ts.Start},
-                    endDate = new DateTimeComplexType {DateTime = ts.End},
+                    startDate = new DateTimeComplexType {DateTime = MergeDT(ts.Start,forcedTimeStamp)},
+                    endDate = new DateTimeComplexType {DateTime = MergeDT(ts.End,forcedTimeStamp)},
                     missVal = ts.NullValue,
-                    units = "MLD",//"cumecs", //PIUnits(ts.units),
+                    units = PIUnits(ts),
                     timeStep = PITimeStep(ts.timeStep),
                     parameterId = ParameterName(ts.name)
                 };
@@ -43,7 +42,7 @@ namespace SourceFEWSAdapter.Core
             IList<EventComplexType> events = new List<EventComplexType>();
             for (int i = 0; i < ts.count(); i++)
             {
-                var fewsDT = new DateTimeComplexType {DateTime = ts.timeForItem(i)};
+                var fewsDT = new DateTimeComplexType {DateTime = MergeDT(ts.timeForItem(i),forcedTimeStamp)};
                 events.Add( new EventComplexType
                     {
                         date = fewsDT.date,
@@ -57,6 +56,16 @@ namespace SourceFEWSAdapter.Core
             result.@event = events.ToArray();
             return result;
 
+        }
+
+        private static DateTime MergeDT(DateTime original, string forcedTimeStamp)
+        {
+            if(forcedTimeStamp==null)
+                return original;
+            string[] bits = forcedTimeStamp.Split(':');
+            int hour = int.Parse(bits[0]);
+            int minute = int.Parse(bits[1]);
+            return new DateTime(original.Year,original.Month,original.Day,hour,minute,0);
         }
 
         private static string ParameterName(string name)
@@ -97,9 +106,20 @@ namespace SourceFEWSAdapter.Core
             return (int) timeStep.GetTimeSpan().TotalSeconds;
         }
 
-        private static string PIUnits(Unit units)
+        private static string PIUnits(TimeSeries ts)
         {
-            return units.SIUnits;
+            Unit units = ts.units;
+            if (Unit.PredefinedUnit(CommonUnits.MLPerDay).Equals(units))
+                return "MLD";
+
+            if (Unit.PredefinedUnit(CommonUnits.megaLitre).Equals(units))
+                return "ML_"+ts.timeStep.Name;
+
+            if (ts.timeStep.Equals(TimeStep.Daily)) return "MLD";
+
+            if (ts.timeStep.Equals(TimeStep.Hourly)) return "MLH";
+
+            return units.Name;
         }
     }
 }
