@@ -124,6 +124,7 @@ The General Adapter should include an exportRunFileActivity element, which needs
 | `URI` | Full URI for source server | No | 
 | `ForceTimeStamp` | Used to enforce a timestamp on the Source model outputs when using daily models. Source would otherwise default to a timestampe of 00:00 regardless of the inputs | No |
 | `PluginDir` | Used where the source model (`RSPROJ`) requires one or more plugins to be loaded. The plugin DLLs should be placed in the directory as noted. If this option is used, then an additional `<executeActivity>` should be configured to call the adapter with the `loadplugins` command. | No |
+| `UserPortOffsets` | Points to a file contain port offsets based on username. Used in multi-user environments, such as Citrix. | No |
 
 The following example (in [groovyFEWS] form) illustrates many of the properties:
  
@@ -221,7 +222,7 @@ When multiple users run FEWS Operator Clients on the same machine, for example, 
 
 Configuring the Source server environment in a multi-user environment is a three step process:
 
-1. Enter a series of per user, port offsets, in `Config/PiClientConfigFiles/UserSourceServerPorts.csv`.
+1. Enter a series of per user, port offsets, in `Config/PiClientConfigFiles/UserSourceServerPorts.csv`. Each line should contain a username (ie the Windows logon) and a port offset.
 2. List the mappings of Source model to network ports, as described above (eg `SourceServers.csv`),
 3. Add a `UserPortOffsets` property to the `<exportRunFileActivity>` in the general adapter to tell the adapter about the offsets.
 
