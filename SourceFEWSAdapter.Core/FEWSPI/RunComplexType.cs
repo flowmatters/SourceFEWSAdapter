@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -83,7 +84,7 @@ namespace SourceFEWSAdapter.FEWSPI
 
         public string ExecutionMode()
         {
-            string serverAddress = FinderServer();
+            string serverAddress = FindServer();
 
             if (serverAddress == "")
                 return "";
@@ -91,7 +92,7 @@ namespace SourceFEWSAdapter.FEWSPI
             return String.Format("-m Client -a {0}", serverAddress);
         }
 
-        private string FinderServer()
+        private string FindServer()
         {
             string configuredServer = ConfiguredServer();
 
@@ -106,15 +107,47 @@ namespace SourceFEWSAdapter.FEWSPI
 
         public string ConfiguredServer()
         {
-            string port = Property("Port");
-            if (port != null)
+            int port = ConfiguredPort();
+            if (port > 0)
+            {
                 return String.Format("net.tcp://localhost:{0}/eWater/Services/RiverSystemService", port);
+            }
 
-            string uri = Property("URI");
+            string uri = Property(Keys.URI);
             if (uri != null)
                 return uri;
 
             return "";
+        }
+
+        private int ConfiguredPort()
+        {
+            string portOption = Property(Keys.PORT);
+            if (portOption == null) return -1;
+
+            int basePort = int.Parse(portOption);
+
+            return basePort + PortOffset();
+        }
+
+        private int PortOffset()
+        {
+            string offsetsFile = Property(Keys.USER_PORT_OFFSETS_FILE);
+            if (offsetsFile == null)
+                return 0;
+
+            string userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split('\\').Last();
+            Console.WriteLine(userName);
+
+            string[] entries = File.ReadAllLines(offsetsFile);
+            foreach (string entry in entries)
+            {
+                string[] components = entry.Split(',');
+                if (components[0].ToLower() == userName.ToLower())
+                    return int.Parse(components[1]);
+            }
+                
+            return 0;
         }
 
         public string SourceExeToUse()

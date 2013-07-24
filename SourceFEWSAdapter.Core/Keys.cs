@@ -15,5 +15,8 @@ namespace SourceFEWSAdapter
         public const string TIMESTEP = "TimeStep";
         public const string INPUT_FILE = "SourceInputFile";
         public const string FORCED_TIMESTAMP = "ForceTimeStamp";
+        public const string USER_PORT_OFFSETS_FILE = "UserPortOffsets";
+        public const string PORT = "Port";
+        public const string URI = "URI";
     }
 }

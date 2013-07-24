@@ -85,14 +85,15 @@ public class SourceServiceController /* extends JPanel */implements
 
 			this.environment = env;
 			String[] configurationLines = loadConfiguration(arguments);
-
+			int portOffset = findPortOffset();
+			
 			for (String line : configurationLines) {
 				String[] components = line.split(",");
 				String projectFile = components[0];
 				int portNumber = Integer.parseInt(components[1].replaceAll(
 						"(\\r|\\n)", ""));
 
-				SourceServer server = new SourceServer(projectFile, portNumber);
+				SourceServer server = new SourceServer(projectFile, portOffset + portNumber);
 				servers.add(server);
 			}
 
@@ -102,6 +103,29 @@ public class SourceServiceController /* extends JPanel */implements
 			log.error(e.getMessage());
 			throw e;
 		}
+	}
+
+	private int findPortOffset() {
+		String username = System.getProperty("user.name").toLowerCase();
+		try
+		{
+			String[] configurationLines = loadConfiguration("UserSourceServerPorts.csv",false);
+			
+			for( String line : configurationLines) {
+				String[] components = line.split(",");
+				
+				if(components[0].toLowerCase().equals(username))
+				{
+					log.info("Found Base Port address for " + username);
+					return Integer.parseInt(components[1]);
+				}
+			}
+		} catch(IOException e) {
+			return 0;
+		} catch(DataStoreException e) {
+			return 0;
+		}
+		return 0;
 	}
 
 	private void waitForAnyPendingShutdowns() {
