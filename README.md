@@ -82,12 +82,18 @@ As noted, above, the adapter requires you to configure a Run Settings file to be
 
 The General Adapter should include an exportRunFileActivity element, which needs to configure some custom property elements depending on how the Source model is configured and how you plan to run the model (Client Server or Standalone).
 
-1. `SourceOutputFile` names the csv file that Source will produce (which will get read and converted to FEWS PI format),
-1. `SourceInputFile` names the CSV file that Source will read (if all time series are imported from one file). Alternatively, the Source inputs can be split based on parameter using a series of `ExpectedFile_<parameter_name>` properties,
-1. `Source_32EXE` and `Source_64EXE` locate the 32 bit and 64 bit versions of the `RiverSystem.CommandLine.exe` program. You need both of these if the configuration could be deployed to both 32bit and 64bit systems (including standalone, OC and FSS).
-1. `RSPROJ` provides the path to the Source project file.
-1. optionally specify a simulation `TimeStep` in seconds, and
-1. optionally specify either a `Port` or a `URI` for an existing Source server. 
+| Property | Purpose | Required? |
+| --- | --- | --- |
+| `SourceOutputFile` | names the csv file that Source will produce (which will get read and converted to FEWS PI format) | Yes |
+| `SourceInputFile` | names the CSV file that Source will read (if all time series are imported from one file). Alternatively, the Source inputs can be split based on parameter using a series of `ExpectedFile_<parameter_name>` properties | No |
+| `ExpectedFile_<parameter_name>` | Properties of this form map all time series for a given parameter (ie for all locations) to a particular file | No |
+| `Source_32EXE` and `Source_64EXE` | locate the 32 bit and 64 bit versions of the `RiverSystem.CommandLine.exe` program. You need both of these if the configuration could be deployed to both 32bit and 64bit systems (including standalone, OC and FSS). | Yes |
+| `RSPROJ` | provides the path to the Source project file | Yes |
+| `TimeStep` | specify a simulation time step in seconds | No |
+| `Port` | Port number of source server (on localhost) | No |
+| `URI` | Full URI for source server | No | 
+| `ForceTimeStamp` | Used to enforce a timestamp on the Source model outputs when using daily models. Source would otherwise default to a timestampe of 00:00 regardless of the inputs | No |
+| `PluginDir` | Used where the source model (`RSPROJ`) requires one or more plugins to be loaded. The plugin DLLs should be placed in the directory as noted. If this option is used, then an additional `<executeActivity>` should be configured to call the adapter with the `loadplugins` command. | No |
 
 The following example (in [groovyFEWS] form) illustrates many of the properties:
  
