@@ -154,6 +154,27 @@ The adapter is currently quite specific about how you set up your Source model. 
 <map internalLocation="J606256A" internalParameter="E.obs" externalLocation="19_J606256A" externalParameter="E.obs"/>
 <map internalLocation="J606256A" internalParameter="H.obs" externalLocation="20_J606256A" externalParameter="H.obs"/>
 ```
+
+## Importing Source Results To FEWS
+
+The `postAdapter` command will produce a single FEWS Published Interface (PI) file for importing into FEWS. **Importantly** all Source results should be imported via a single `<importTimeSeriesActivity>` element.
+
+A Source model typically produces many outputs, which can be configured in the Source GUI. It is preferable to disable outputs that aren't required for FEWS as this reduces both the runtime of the simulation model and the various file export and import steps.
+
+The results from Source typically need to be mapped to FEWS locations and parameters by specifying an `<importIdMap>` in the `<general>` options of the General Adapter. As with all IdMaps in FEWS, these files can be configured with 'generic' rules:
+
+``` xml
+<parameter external="Downstream Flow Volume" internal="Q.simulated.forecast"/>
+<location external="link for catchment SC #0" internal="G407210D"/>
+```
+
+or specific rules
+```xml
+<map internalLocation="SourceOfftakeNode" internalParameter="Q.simulated.supplied" externalLocation="N400999" externalParameter="DemandModel@Ordered Water Supplied@Ordered Water Supplied"/>
+```
+
+The external parameter (ie the Source parameter) can be found by looking in the FEWS PI output file and searching for `<parameterId>` elements. The exact set of parameters depends on the setup of the Source model. 
+
 ## Dealing with Missing Values
 
 It is important to configure FEWS to deal correctly with any missing values that could be passed to Source.
