@@ -1,11 +1,13 @@
 package au.flowmatters.fews.plugins.source;
 
-//import java.awt.FlowLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-//import javax.swing.JButton;
-//import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import nl.wldelft.fews.gui.explorer.FewsEnvironment;
 import nl.wldelft.fews.gui.explorer.FewsExplorerPlugin;
@@ -16,9 +18,9 @@ import nl.wldelft.fews.system.data.config.files.ConfigFile;
 import nl.wldelft.fews.system.data.config.region.PiClientDescriptor;
 import org.apache.log4j.Logger;
 
-public class SourceServiceController /* extends JPanel */implements
+public class SourceServiceController extends JPanel implements
 		FewsExplorerPlugin {
-	// private static final long serialVersionUID = -8617095560285855001L;
+	private static final long serialVersionUID = -8617095560285855001L;
 	private static final Logger log = Logger
 			.getLogger(SourceServiceController.class);
 	private static ArrayList<SourceServer> serversPendingShutdown = new ArrayList<SourceServer>();
@@ -27,19 +29,55 @@ public class SourceServiceController /* extends JPanel */implements
 	private ArrayList<SourceServer> servers = new ArrayList<SourceServer>();
 	private long lastLogTime = 0;
 	private boolean shutDown = false;
+	private JButton start;
+	private JButton stop;
+	private JButton restart;
 
 	public SourceServiceController() {
 		configureUserInterface();
 	}
-
+	
 	private void configureUserInterface() {
-		// this.setLayout(new FlowLayout());
-		// this.add(new JButton("Hello!"));
+		this.setLayout(new FlowLayout());
+		start = new JButton("Start");
+		start.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				log.info("***Start servers***");
+				startServers();
+			}
+		});
+		this.add(start);
+		
+		stop = new JButton("Stop");
+		stop.setEnabled(false);
+		stop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.info("***Stop servers***");	
+				stopServers();
+			}
+		});
+		this.add(stop);
+		
+		restart = new JButton("Restart");
+		restart.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				log.info("***Restart servers***");
+				restartServers();
+			}
+		});
+		this.add(restart);
 	}
 
 	@Override
 	public void dispose() {
 		stopAllServers();
+		shutDown = true;
 	}
 
 	private void stopAllServers() {
@@ -53,7 +91,6 @@ public class SourceServiceController /* extends JPanel */implements
 		}
 
 		log.info("All Servers stopped");
-		shutDown = true;
 	}
 
 	@Override
@@ -97,14 +134,32 @@ public class SourceServiceController /* extends JPanel */implements
 				servers.add(server);
 			}
 
-			SourceServerStarter sss = new SourceServerStarter(servers);
-			sss.start();
+			//startServers();
 		} catch (Error e) {
 			log.error(e.getMessage());
 			throw e;
 		}
 	}
 
+	private void startServers() {
+		start.setEnabled(false);
+		SourceServerStarter sss = new SourceServerStarter(servers);
+		sss.start();
+		stop.setEnabled(true);
+	}
+
+	private void stopServers() {
+		stop.setEnabled(false);
+		stopAllServers();
+		waitForAnyPendingShutdowns();
+		start.setEnabled(true);		
+	}
+	
+	private void restartServers() {
+		stopServers();
+		startServers();
+	}
+	
 	private int findPortOffset() {
 		String username = System.getProperty("user.name").toLowerCase();
 		try
