@@ -72,9 +72,39 @@ The Source FEWS adapter builds as a single executable that can respond to multip
 * **simulation** invokes the Source command line runner with time-window settings from the FEWS run settings file
 * **postadapter** transforms the Source outputs to FEWS PI time series for importing back into FEWS.
 
-Thus, the Source FEWS adapter requires three executeActivity steps in the GeneralAdapter. In each case, the command should be first command line argument to the program, and the path to the FEWS run settings file should be the second (implying that your GeneralAdapter will need an exportRunFileActivity element). That's all that is required for the three main commands. 
+Thus, the Source FEWS adapter requires three executeActivity steps in the GeneralAdapter. In each case, the command should be first command line argument to the program, and the path to the FEWS run settings file should be the second (implying that your GeneralAdapter will need an exportRunFileActivity element). That's all that is required for the three main commands. For example:
 
-A fourth command **probe** is available to check the status of a running Source server.
+```xml
+<executeActivity>
+	<description>Run PreAdapter</description>
+	<command>
+		<executable>%REGION_HOME%/Modules/source/bin/SourceFEWSAdapter.exe</executable>
+	</command>
+	<arguments>
+		<argument>preadapter</argument>
+		<argument>%ROOT_DIR%\input\RunParameters.xml</argument>
+	</arguments>
+	<timeOut>1200000</timeOut>
+</executeActivity>
+```
+
+Two additional commands are available:
+* **probe** is used to check the status of a running Source server. This is primarily used by the SourceServerMonitor to avoid starting up a server where one already exists, and
+* **loadplugins** which is used to configure Source to temporarily use a particular set of plugins as required by a given model. Where plugins are required, an additional `<executeActivity>` should be used to call the adapter with the `loadplugins` command
+
+```xml
+<executeActivity>
+	<description>Run PreAdapter</description>
+	<command>
+		<executable>%REGION_HOME%/Modules/source/bin/SourceFEWSAdapter.exe</executable>
+	</command>
+	<arguments>
+		<argument>loadplugins</argument>
+		<argument>%ROOT_DIR%\input\RunParameters.xml</argument>
+	</arguments>
+	<timeOut>1200000</timeOut>
+</executeActivity>
+```
 
 ## The FEWS Run Settings File
  
