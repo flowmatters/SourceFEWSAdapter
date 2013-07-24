@@ -134,21 +134,32 @@ public class SourceServiceController /* extends JPanel */implements
 		serversPendingShutdown.clear();
 	}
 
-	private String[] loadConfiguration(String filename)
+	private String[] loadConfiguration(String filename) throws DataStoreException, IOException {
+		return loadConfiguration(filename,true);
+	}
+	
+	private String[] loadConfiguration(String filename, boolean errorOnMissing)
 			throws DataStoreException, IOException {
 		DataStore dataStore = environment.getDataStore();
 		Config config = dataStore.getConfig();
 
 		PiClientDescriptor descriptor = new PiClientDescriptor(filename);
 		ConfigFile cf = config.getPiClientConfigFiles().getActive(descriptor);
+		
+		if(cf==null) {
+			if(errorOnMissing)
+				log.error("No configuration found for Source Server Controller in "
+						+ filename);
+			return new String[0];
+		}
 
 		String configText = cf.getText();
 
-		if (configText.isEmpty())
+		if (errorOnMissing && configText.isEmpty())
 			log.error("No configuration found for Source Server Controller in "
 					+ filename);
 
-		return configText.split("\n");
+			return configText.split("\n");
 	}
 
 	@Override
