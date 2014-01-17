@@ -12,8 +12,8 @@
     <AssemblyName>SourceFEWSAdapter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-	<OutputPath>..\..\..\Output\Plugins</OutputPath>
-	<ReferencePath>..\..\..\Output;..\..\..\Output\Plugins</ReferencePath>
+	<OutputPath>..\..\Output\Plugins</OutputPath>
+	<ReferencePath>..\..\Output;..\..\Output\Plugins</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,18 +34,36 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Core" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Runtime.Serialization" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.ServiceModel" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Xml.Linq" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Data.DataSetExtensions" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="Microsoft.CSharp" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Data" >
+		<Private>false</Private>
+	</Reference>
+    <Reference Include="System.Xml" >
+		<Private>false</Private>
+	</Reference>
     <Reference Include="TIME">
-      <HintPath>..\..\..\References\TIME.dll</HintPath>
-    </Reference>
+		<Private>false</Private>
+	</Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\LoadPluginAdapter.cs" />
