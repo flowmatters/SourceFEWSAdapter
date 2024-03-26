@@ -14,9 +14,13 @@ namespace SourceFEWSAdapter.FEWSPI
     {
         public string Property(string key)
         {
-            return (from property in properties.Items where GetKey(property) == key select GetValue(property)).FirstOrDefault();
+            return Properties(key).FirstOrDefault();
         }
 
+        public string[] Properties(string key)
+        {
+            return (from property in properties.Items where GetKey(property) == key select GetValue(property)).ToArray();
+        }
         private string GetKey(object propertyItem)
         {
             StringPropertyComplexType stringProp = propertyItem as StringPropertyComplexType;

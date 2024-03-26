@@ -45,9 +45,24 @@ namespace SourceFEWSAdapter.Commands
             else
                 sourceProject = "";
 
-            string sourceCommand = string.Format("-p \"{0};;{1};{2}\" {4} -o {3}",
-                                                 sourceProject, start.ToString(dateFormat),
-                                                 end.ToString(dateFormat), sourceOutput,mode);
+            string sourceCommand =
+                $"-p \"{sourceProject};;{start.ToString(dateFormat)};{end.ToString(dateFormat)}\" {mode}";
+            if (sourceOutput == null)
+            {
+                diagnostics.Log(Diagnostics.LEVEL_WARNING,"No output file configured");
+                sourceCommand += "--resultsOutputMode NoOutput";
+            }
+            else
+            {
+                sourceCommand += $" -o {sourceOutput}";
+            }
+
+            var plugins = runSettings.Properties(Keys.PLUGIN_FN);
+            foreach (var plugin in plugins)
+            {
+                sourceCommand += $" -l \"{plugin}\"";
+            }
+
             diagnostics.Log(3, string.Format("Starting Source Run with command line {0}",sourceCommand));
 
             ProcessStartInfo startInfo = new ProcessStartInfo
