@@ -69,7 +69,7 @@ namespace SourceFEWSAdapter.FEWSPI
 
             foreach (string fn in inputTimeSeriesFile)
                 result.AddRange(FEWSPIProxy.ReadTimeSeries(fn).series);
-            
+
             return result.ToArray();
         }
 
