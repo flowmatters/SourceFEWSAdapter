@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace SourceFEWSAdapter
@@ -19,5 +20,12 @@ namespace SourceFEWSAdapter
         public const string USER_PORT_OFFSETS_FILE = "UserPortOffsets";
         public const string PORT = "Port";
         public const string URI = "URI";
+
+        public static string HelpText()
+        {
+            var t = typeof(Keys);
+            var labels = t.GetFields(BindingFlags.Static|BindingFlags.Public).Select(f => f.GetValue(null)).ToArray();
+            return "\t" + String.Join("\n\t",labels);
+        }
     }
 }

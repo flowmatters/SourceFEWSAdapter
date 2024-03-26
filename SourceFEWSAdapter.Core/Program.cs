@@ -10,6 +10,7 @@ namespace SourceFEWSAdapter
 {
     internal class Program
     {
+        const string HELP_TEXT_PROP_MARKER = "<KNOWNPROPERTIES>";
         public static Dictionary<string, Action<RunComplexType, Diagnostics, string[]>> commands = new Dictionary
             <string, Action<RunComplexType, Diagnostics, string[]>>
             {
@@ -61,6 +62,8 @@ namespace SourceFEWSAdapter
                 "\tTest for the existence of a live Source server at the given URI.",
                 "\tExampe: SourceFEWSAdapter probe net.tcp://localhost:8765/eWater/Services/RiverSystemService",
                 "",
+                "Standard properties for runsettings XML file",
+                HELP_TEXT_PROP_MARKER,
                 "For details on configuring FEWS and Source for use with the adapter (including what to include in the runsettingsfile.xml), see the documentation at:",
                 "\thttps://github.com/flowmatters/SourceFEWSAdapter",
                 "",
@@ -71,7 +74,14 @@ namespace SourceFEWSAdapter
         private static void ShowHelpText()
         {
             foreach (var s in HELP_TEXT)
-                Console.WriteLine(s);
+                if (s == HELP_TEXT_PROP_MARKER)
+                {
+                    Console.WriteLine(Keys.HelpText());
+                }
+                else
+                {
+                    Console.WriteLine(s);
+                }
         }
 
         private static Action<RunComplexType, Diagnostics, string[]> MatchCommand(string cmd)
