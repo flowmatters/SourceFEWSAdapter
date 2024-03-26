@@ -82,15 +82,18 @@ namespace SourceFEWSAdapter.Commands
                 };
             Process p = Process.Start(startInfo);
             string output = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
             string errors = p.StandardError.ReadToEnd();
+            p.WaitForExit();
 
-            if (!File.Exists(sourceOutput))
+            Console.WriteLine(output);
+            Console.WriteLine(errors);
+            foreach (string line in errors.Split('\n'))
+                diagnostics.Log(Diagnostics.LEVEL_ERROR, line);
+
+            if ((sourceOutput!=null)&&!File.Exists(sourceOutput))
             {
-                File.WriteAllText(runSettings.workDir+"\\SourceErrors.txt",errors);
-                File.WriteAllText(runSettings.workDir+"\\SourceOutput.txt",output);
-                foreach (string line in errors.Split('\n'))
-                    diagnostics.Log(1, line);
+                File.WriteAllText(runSettings.workDir + "\\SourceErrors.txt", errors);
+                File.WriteAllText(runSettings.workDir + "\\SourceOutput.txt", output);
                 throw new Exception(string.Format("Source run failed. No output file: {0}", sourceOutput));
             }
 
