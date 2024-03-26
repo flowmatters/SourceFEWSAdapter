@@ -16,6 +16,11 @@ namespace SourceFEWSAdapter.Core
             return ReadFromXML<RunComplexType>(path);
         }
 
+        public static ModelParametersComplexType ReadParametersFile(string path)
+        {
+            return ReadFromXML<ModelParametersComplexType>(path);
+        }
+
         public static TimeSeriesCollectionComplexType ReadTimeSeries(string path)
         {
             return ReadFromXML<TimeSeriesCollectionComplexType>(path);

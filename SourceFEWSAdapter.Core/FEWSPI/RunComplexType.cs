@@ -158,5 +158,28 @@ namespace SourceFEWSAdapter.FEWSPI
         {
             return Property(Environment.Is64BitOperatingSystem ? Keys.SOURCE64 : Keys.SOURCE32);
         }
+
+        public string InputSet()
+        {
+            foreach(var paramFile in inputParameterFile)
+            {
+                var paramSpec = FEWSPIProxy.ReadParametersFile(paramFile);
+                foreach (var grp in paramSpec.group)
+                {
+                    if (grp.id == "inputset")
+                    {
+                        foreach (ModelParameterComplexType item in grp.Items)
+                        {
+                            if (item.id == "inputset")
+                            {
+                                return item.Item as string;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

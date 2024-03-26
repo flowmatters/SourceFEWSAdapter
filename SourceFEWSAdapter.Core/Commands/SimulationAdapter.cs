@@ -57,6 +57,12 @@ namespace SourceFEWSAdapter.Commands
                 sourceCommand += $" -o {sourceOutput}";
             }
 
+            var inputSet = runSettings.InputSet();
+            if (inputSet != null)
+            {
+                sourceCommand += $" --inputset \"{inputSet}\"";
+            }
+
             var plugins = runSettings.Properties(Keys.PLUGIN_FN);
             foreach (var plugin in plugins)
             {
