@@ -40,7 +40,7 @@ namespace SourceFEWSAdapter.Core
                 };
 
             IList<EventComplexType> events = new List<EventComplexType>();
-            for (int i = 0; i < ts.count(); i++)
+            for (int i = 0; i < ts.Count; i++)
             {
                 var fewsDT = new DateTimeComplexType {DateTime = MergeDT(ts.timeForItem(i),forcedTimeStamp)};
                 events.Add( new EventComplexType

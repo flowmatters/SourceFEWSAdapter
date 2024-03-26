@@ -33,12 +33,12 @@ namespace SourceFEWSAdapter.Commands
                     outputSets[destinationFn] = new CSVFileIO();
 
                 TimeSeries converted = FEWSPIProxy.ConvertTimeSeriesFromFEWS(fewsTS);
-                outputSets[destinationFn].use(converted.name, converted);
+                outputSets[destinationFn].Use(converted.name, converted);
             }
 
             Directory.CreateDirectory(runSettings.workDir);
             foreach (var outputSet in outputSets)
-                outputSet.Value.save(runSettings.workDir + "\\" + outputSet.Key);
+                outputSet.Value.Save(runSettings.workDir + "\\" + outputSet.Key);
 
             diagnostics.Log(3, "All Done");
         }
