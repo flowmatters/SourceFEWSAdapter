@@ -14,60 +14,9 @@ namespace SourceFEWSAdapter.Commands
     {
         public static void Run(RunComplexType runSettings, Diagnostics diagnostics, string[] args)
         {
-            var start = DateTimeComplexType.DateTimeFromPI(runSettings.startDateTime);
-            var end = DateTimeComplexType.DateTimeFromPI(runSettings.endDateTime);
-            
-//            string dateFormat = "dd/MM/yyyy";
-            var dtf = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
-
-            string dateFormat = dtf.ShortDatePattern; // "MM/dd/yyyy";
-            if (runSettings.TimeStepInSeconds != 86400)
-                dateFormat += " HH:mm:ss";
-
             string sourceExe = runSettings.SourceExeToUse();
-            string sourceProject = runSettings.Property(Keys.PROJECT_FILE);
 
-            string sourceOutput = runSettings.Property(Keys.OUTPUT_FILE);
-            
-            if (File.Exists(sourceOutput))
-            {
-                diagnostics.Log(3,string.Format("Deleting old source output file {0}",sourceOutput));
-                File.Delete(sourceOutput);
-            }
-
-            string mode = runSettings.ExecutionMode();
-
-            if (mode == "")
-            {
-                if(runSettings.ConfiguredServer()!="")
-                    diagnostics.Log(3,string.Format("Running locally because configured server ({0}) is unavailable",runSettings.ConfiguredServer()));
-            }
-            else
-                sourceProject = "";
-
-            string sourceCommand =
-                $"-p \"{sourceProject};;{start.ToString(dateFormat)};{end.ToString(dateFormat)}\" {mode}";
-            if (sourceOutput == null)
-            {
-                diagnostics.Log(Diagnostics.LEVEL_WARNING,"No output file configured");
-                sourceCommand += "--resultsOutputMode NoOutput";
-            }
-            else
-            {
-                sourceCommand += $" -o {sourceOutput}";
-            }
-
-            var inputSet = runSettings.InputSet();
-            if (inputSet != null)
-            {
-                sourceCommand += $" --inputset \"{inputSet}\"";
-            }
-
-            var plugins = runSettings.Properties(Keys.PLUGIN_FN);
-            foreach (var plugin in plugins)
-            {
-                sourceCommand += $" -l \"{plugin}\"";
-            }
+            var sourceCommand = BuildCommandLine(runSettings, diagnostics, out var sourceOutput);
 
             diagnostics.Log(3, string.Format("Starting Source Run with command line {0}",sourceCommand));
 
@@ -98,6 +47,66 @@ namespace SourceFEWSAdapter.Commands
             }
 
             diagnostics.Log(3,"All done");
+        }
+
+        private static string BuildCommandLine(RunComplexType runSettings, Diagnostics diagnostics, out string sourceOutput)
+        {
+            var start = DateTimeComplexType.DateTimeFromPI(runSettings.startDateTime);
+            var end = DateTimeComplexType.DateTimeFromPI(runSettings.endDateTime);
+
+//            string dateFormat = "dd/MM/yyyy";
+            var dtf = Thread.CurrentThread.CurrentCulture.DateTimeFormat;
+
+            string dateFormat = dtf.ShortDatePattern; // "MM/dd/yyyy";
+            if (runSettings.TimeStepInSeconds != 86400)
+                dateFormat += " HH:mm:ss";
+
+            string sourceProject = runSettings.Property(Keys.PROJECT_FILE);
+
+            sourceOutput = runSettings.Property(Keys.OUTPUT_FILE);
+
+            if (File.Exists(sourceOutput))
+            {
+                diagnostics.Log(3, string.Format("Deleting old source output file {0}", sourceOutput));
+                File.Delete(sourceOutput);
+            }
+
+            string mode = runSettings.ExecutionMode();
+
+            if (mode == "")
+            {
+                if (runSettings.ConfiguredServer() != "")
+                    diagnostics.Log(3,
+                        string.Format("Running locally because configured server ({0}) is unavailable",
+                            runSettings.ConfiguredServer()));
+            }
+            else
+                sourceProject = "";
+
+            var sourceCommand = $"-p \"{sourceProject};;{start.ToString(dateFormat)};{end.ToString(dateFormat)}\" {mode}";
+            if (sourceOutput == null)
+            {
+                diagnostics.Log(Diagnostics.LEVEL_WARNING, "No output file configured");
+                sourceCommand += "--resultsOutputMode NoOutput";
+            }
+            else
+            {
+                sourceCommand += $" -o {sourceOutput}";
+            }
+
+            var inputSet = runSettings.InputSet();
+            if (inputSet != null)
+            {
+                sourceCommand += $" --inputset \"{inputSet}\"";
+            }
+
+            var plugins = runSettings.Properties(Keys.PLUGIN_FN);
+            foreach (var plugin in plugins)
+            {
+                sourceCommand += $" -l \"{plugin}\"";
+            }
+
+            return sourceCommand;
         }
     }
 }
