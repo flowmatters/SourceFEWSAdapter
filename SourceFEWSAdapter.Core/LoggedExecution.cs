@@ -19,7 +19,7 @@ namespace SourceFEWSAdapter.Core
             if (File.Exists(args[1]))
             {
                 runSettings = FEWSPIProxy.ReadRunFile(args[1]);
-                diagnostics = new Diagnostics(runSettings.outputDiagnosticFile, args[0]);
+                diagnostics = new Diagnostics(runSettings.outputDiagnosticFile, args[0],runSettings);
             }
 
             try

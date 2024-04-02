@@ -9642,6 +9642,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -9691,6 +9692,7 @@ namespace SourceFEWSAdapter.FEWSPI {
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.wldelft.nl/fews/PI")]
     public enum DaylightSavingObservedTimeZoneEnumStringType {
+        None,
 
         /// <remarks/>
         AST,
@@ -9990,6 +9992,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10093,6 +10096,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10188,6 +10192,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10275,6 +10280,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10397,6 +10403,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10476,6 +10483,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;
@@ -10670,7 +10678,6 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
-        [XmlIgnore]
         public DaylightSavingObservedTimeZoneEnumStringType daylightSavingObservingTimeZone {
             get {
                 return this.daylightSavingObservingTimeZoneField;
@@ -11175,6 +11182,7 @@ namespace SourceFEWSAdapter.FEWSPI {
         }
 
         /// <remarks/>
+        [XmlIgnore]
         public double timeZone {
             get {
                 return this.timeZoneField;

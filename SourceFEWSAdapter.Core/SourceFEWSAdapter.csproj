@@ -92,6 +92,7 @@
     <Compile Include="FEWSPI\DateTimeComplexType.cs" />
     <Compile Include="FEWSPI\PI.cs" />
     <Compile Include="FEWSPI\RunComplexType.cs" />
+    <Compile Include="FEWSPI\TimeZoned.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="SourceServiceCallback.cs" />
     <Compile Include="LoggedExecution.cs" />

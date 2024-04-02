@@ -14,11 +14,12 @@ namespace SourceFEWSAdapter.Core
         public const int LEVEL_ERROR = 5;
         public const int LEVEL_FATAL = 6;
 
-        public Diagnostics(string path, string command)
+        public Diagnostics(string path, string command, RunComplexType tzInfo)
         {
             Command = command;
             FilePath = path;
             diagnosticsDOM = new DiagComplexType();
+            diagnosticsDOM.CopyTimeZoneInfo(tzInfo);
             diagnosticsDOM.line = new LineComplexType[0];
         }
 

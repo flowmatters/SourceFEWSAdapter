@@ -12,12 +12,12 @@ namespace SourceFEWSAdapter.Core
 {
     public class TIMEProxy
     {
-        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection, double timeZone,string forcedTimeStamp)
+        public static TimeSeriesCollectionComplexType FromTimeSeriesCollection(ICollection<TimeSeries> collection, RunComplexType run,string forcedTimeStamp)
         {
             TimeSeriesCollectionComplexType result = new TimeSeriesCollectionComplexType();
             IEnumerable<TimeSeriesComplexType> piCollection = collection.Select(series => FromTimeSeries(series,forcedTimeStamp));
             result.series = piCollection.ToArray();
-            result.timeZone = timeZone;
+            result.CopyTimeZoneInfo(run);
             return result;
         }
 
@@ -49,7 +49,8 @@ namespace SourceFEWSAdapter.Core
                         time = fewsDT.time,
                         flag = 2,
                         flagSpecified = true,
-                        value = ts[i]
+                        value = ts[i],
+                        valueSpecified = true
                     });
             }
 
