@@ -40,6 +40,7 @@ namespace SourceFEWSAdapter.Core
             line.level = (sbyte) level;
             line.description = string.Format("SOURCE {0}: {1}",Command, message);
             diagnosticsDOM.line = diagnosticsDOM.line.Concat(new LineComplexType[] {line}).ToArray();
+            Console.WriteLine(message);
         }
 
         public void Save()
