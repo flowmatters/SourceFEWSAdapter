@@ -92,6 +92,7 @@
     <Compile Include="FEWSPI\DateTimeComplexType.cs" />
     <Compile Include="FEWSPI\PI.cs" />
     <Compile Include="FEWSPI\RunComplexType.cs" />
+    <Compile Include="FEWSPI\TimeSeriesComplexType.cs" />
     <Compile Include="FEWSPI\TimeZoned.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="SourceServiceCallback.cs" />
@@ -104,6 +105,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="SourceServiceUtils.cs" />
+    <Compile Include="SourceTimeSeriesIOProxy.cs" />
     <Compile Include="Tests\TestPIProxy.cs" />
     <Compile Include="TIMEProxy.cs" />
   </ItemGroup>

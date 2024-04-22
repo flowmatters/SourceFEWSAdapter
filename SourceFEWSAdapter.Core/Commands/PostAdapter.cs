@@ -11,7 +11,7 @@ namespace SourceFEWSAdapter.Commands
     {
         public static void Run(RunComplexType runSettings, Diagnostics diagnostics, string[] args)
         {
-            var sourceOutputFn = runSettings.Property(Keys.OUTPUT_FILE);
+            var sourceOutputFn = runSettings.ResCSVFile();
             if (!Path.IsPathRooted(sourceOutputFn))
             {
                 sourceOutputFn = runSettings.workDir + Path.PathSeparator + sourceOutputFn;

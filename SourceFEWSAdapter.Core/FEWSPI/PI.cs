@@ -10582,7 +10582,6 @@ namespace SourceFEWSAdapter.FEWSPI {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
     [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.wldelft.nl/fews/PI")]
     [System.Xml.Serialization.XmlRootAttribute("Run", Namespace="http://www.wldelft.nl/fews/PI", IsNullable=false)]

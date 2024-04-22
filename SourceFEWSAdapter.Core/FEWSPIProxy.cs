@@ -52,6 +52,10 @@ namespace SourceFEWSAdapter.Core
 
         public static TimeSeries ConvertTimeSeriesFromFEWS(TimeSeriesComplexType fewsTS)
         {
+            if (fewsTS.Length == 0)
+            {
+                throw new ArgumentException("0 length timeseries");
+            }
             var header = fewsTS.header;
             DateTime tsStart = DateTimeComplexType.DateTimeFromPI(header.startDate);
             DateTime tsEnd = DateTimeComplexType.DateTimeFromPI(header.endDate);

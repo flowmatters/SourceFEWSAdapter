@@ -63,7 +63,7 @@ namespace SourceFEWSAdapter.Commands
 
             string sourceProject = runSettings.Property(Keys.PROJECT_FILE);
 
-            sourceOutput = runSettings.Property(Keys.OUTPUT_FILE);
+            sourceOutput = runSettings.ResCSVFile();
 
             if (File.Exists(sourceOutput))
             {
@@ -100,7 +100,7 @@ namespace SourceFEWSAdapter.Commands
                 sourceCommand += $" --inputset \"{inputSet}\"";
             }
 
-            var plugins = runSettings.Properties(Keys.PLUGIN_FN);
+            var plugins = runSettings.Plugins();
             foreach (var plugin in plugins)
             {
                 sourceCommand += $" -l \"{plugin}\"";

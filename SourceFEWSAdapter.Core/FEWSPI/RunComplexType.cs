@@ -7,6 +7,7 @@ using System.ServiceModel.Channels;
 using System.Text;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.SourceService;
+using TIME.ManagedExtensions;
 
 namespace SourceFEWSAdapter.FEWSPI
 {
@@ -86,6 +87,20 @@ namespace SourceFEWSAdapter.FEWSPI
             }
         }
 
+        public string ProjectFile
+        {
+            get
+            {
+                return Property(Keys.PROJECT_FILE);
+            }
+        }
+
+        public string PathRelativeToProject(string relativePath)
+        {
+            var projectDir = Path.GetDirectoryName(ProjectFile);
+            return Path.Combine(projectDir, relativePath);
+        }
+
         public string ExecutionMode()
         {
             string serverAddress = FindServer();
@@ -159,27 +174,76 @@ namespace SourceFEWSAdapter.FEWSPI
             return Property(Environment.Is64BitOperatingSystem ? Keys.SOURCE64 : Keys.SOURCE32);
         }
 
+        private string[] FromRunSettingsOrParameters(string key, string parameterGroup = "ModelInput")
+        {
+            var fromRunSettings = Properties(key);
+            var paramGroup = ParameterGroup(parameterGroup);
+            if (paramGroup == null)
+            {
+                return fromRunSettings;
+            }
+            var fromParams = paramGroup.Items.Where(p => (p as ModelParameterComplexType).id == key)
+                .Select(p => (p as ModelParameterComplexType).Item as string).ToHashSet();
+            fromParams.AddRange(fromRunSettings);
+            return fromParams.ToArray();
+        }
+        public string PluginFolder()
+        {
+            return FromRunSettingsOrParameters(Keys.PLUGIN_DIR).FirstOrDefault() ?? "";
+        }
+
+        public string[] Plugins()
+        {
+            var inRunSettings = Properties(Keys.PLUGIN_FN);
+            var paramGroup = ParameterGroup("ModelInput");
+            if (paramGroup == null)
+            {
+                return inRunSettings;
+            }
+            var fromParams = paramGroup.Items.Where(p=> (p as ModelParameterComplexType).id == Keys.PLUGIN_FN)
+                .Select(p=>(p as ModelParameterComplexType).Item as string).ToHashSet();
+            fromParams.AddRange(inRunSettings);
+            var folder = PluginFolder();
+            return fromParams.Select(p=>Path.IsPathRooted(p)?p:Path.Combine(folder,p)).ToHashSet().ToArray();
+        }
+
+        private IEnumerable<ModelParameterGroupComplexType> ParameterGroups()
+        {
+            return inputParameterFile.SelectMany(fn => FEWSPIProxy.ReadParametersFile(fn).group);
+        }
+
+        private ModelParameterGroupComplexType ParameterGroup(string name)
+        {
+            return ParameterGroups().FirstOrDefault(p => p.id == name);
+        }
+
         public string InputSet()
         {
-            foreach(var paramFile in inputParameterFile)
+            var parameterGroups = ParameterGroups();
+            foreach (var grp in parameterGroups)
             {
-                var paramSpec = FEWSPIProxy.ReadParametersFile(paramFile);
-                foreach (var grp in paramSpec.group)
+                foreach (ModelParameterComplexType item in grp.Items)
                 {
-                    if (grp.id == "inputset")
+                    if (item.id.ToLower() == "inputset")
                     {
-                        foreach (ModelParameterComplexType item in grp.Items)
-                        {
-                            if (item.id == "inputset")
-                            {
-                                return item.Item as string;
-                            }
-                        }
+                        return item.Item as string;
                     }
                 }
             }
 
             return null;
+        }
+
+        public string ResCSVFile()
+        {
+            var filename = Property(Keys.OUTPUT_FILE);
+            if ((filename == null)&&(outputTimeSeriesFile.Length>0))
+            {
+                var fi = new FileInfo(outputTimeSeriesFile[0]);
+                filename = fi.FullName.Replace(fi.Extension, ".res.csv");
+            }
+
+            return filename;
         }
     }
 }
