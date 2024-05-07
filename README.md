@@ -201,30 +201,8 @@ It is important to realise that the setup of your Source model is *coupled* to y
 Key things to watch for:
 
 * The data mappings in Source are to columns, so if the column order changes, the data mappings will change **without warning**.
-* Adding and removing time series to the FEWS export will affect the input mapping. Importantly, if you are exporting time series based on a locationSet and that composition of that locationSet changes, then the export will change and the Source linkage will break. **In many case this change will not produce an error message due to Source still having enough columns**
+* Adding and removing time series to the FEWS export will affect the 'Simple time series mapping'. Importantly, if you are exporting time series based on a locationSet and that composition of that locationSet changes, then the export will change and the Source linkage will break. **In many case this change will not produce an error message due to Source still having enough columns**. Custom time series mapping is not affected in the same way.
 
-## Multi-User Environments
-
-When multiple users run FEWS Operator Clients on the same machine, for example, by using terminal services or Citrix to connect to the same Windows Servers, there would be a risk that multiple users would try to access the same instances of the Source service, causing conflicts. The Source Server Monitor and the Adapter can work around this by using Port 'offsets' based on username. With this scheme, the port number for a given Source model service is the configured port number + a port offset for the current user. So, for example, if `ModelA.rsproj` is configured for port 9100 and the current user, Bob, has a port offset of 3, the service for ModelA will be started on port 9103.
-
-Configuring the Source server environment in a multi-user environment is a three step process:
-
-1. Enter a series of per user, port offsets, in `Config/PiClientConfigFiles/UserSourceServerPorts.csv`. Each line should contain a username (ie the Windows logon) and a port offset.
-2. List the mappings of Source model to network ports, as described above (eg `SourceServers.csv`),
-3. Add a `UserPortOffsets` property to the `<exportRunFileActivity>` in the general adapter to tell the adapter about the offsets.
-
-The two CSV files need to be constructed to avoid clashes. So, if the user offsets increment by 1, then the project port numbers need to step by at least the number of users:
-```csv
-joel,1,
-butcher,2,
-baker,3,
-candlestickmaker,4,
-```
-
-```csv
-%REGION_HOME%\Modules\source\catchment1\model\catchment1.rsproj,8760,
-%REGION_HOME%\Modules\source\catchment2\model\catchment2.rsproj,8770,
-```
 
 ## Limitations
 
