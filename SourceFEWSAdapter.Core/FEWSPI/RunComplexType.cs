@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text;
+using System.Xml;
 using SourceFEWSAdapter.Core;
-using SourceFEWSAdapter.SourceService;
 using TIME.ManagedExtensions;
 
 namespace SourceFEWSAdapter.FEWSPI
@@ -244,6 +242,28 @@ namespace SourceFEWSAdapter.FEWSPI
             }
 
             return filename;
+        }
+
+        public string TimeZoneTag()
+        {
+            if (daylightSavingObservingTimeZone == DaylightSavingObservedTimeZoneEnumStringType.None)
+            {
+                return $"<timeZone>{(int)timeZone}</timeZone>";
+            }
+
+            return $"<dailySavingsObservedTimeZone>{daylightSavingObservingTimeZone}</dailySavingsObservedTimeZone>";
+        }
+
+        public void WriteTimeZoneTag(XmlWriter xmlWriter)
+        {
+            if (daylightSavingObservingTimeZone == DaylightSavingObservedTimeZoneEnumStringType.None)
+            {
+                xmlWriter.WriteElementString("timeZone", timeZone.ToString(CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                xmlWriter.WriteElementString("dailySavingsObservedTimeZone", daylightSavingObservingTimeZone.ToString());
+            }
         }
     }
 }
