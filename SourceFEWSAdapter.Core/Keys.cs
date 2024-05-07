@@ -20,7 +20,7 @@ namespace SourceFEWSAdapter
         public const string USER_PORT_OFFSETS_FILE = "UserPortOffsets";
         public const string PORT = "Port";
         public const string URI = "URI";
-
+        public const string INPUT_SET = "InputSet";
         public static string HelpText()
         {
             var t = typeof(Keys);

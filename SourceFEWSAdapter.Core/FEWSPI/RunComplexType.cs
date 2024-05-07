@@ -222,7 +222,7 @@ namespace SourceFEWSAdapter.FEWSPI
             {
                 foreach (ModelParameterComplexType item in grp.Items)
                 {
-                    if (item.id.ToLower() == "inputset")
+                    if (item.id.ToLower() == Keys.INPUT_SET.ToLower())
                     {
                         return item.Item as string;
                     }
