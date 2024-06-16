@@ -43,13 +43,18 @@ namespace SourceFEWSAdapter.Core
             for (int i = 0; i < ts.Count; i++)
             {
                 var fewsDT = new DateTimeComplexType {DateTime = MergeDT(ts.timeForItem(i),forcedTimeStamp)};
+                double value = ts[i];
+                if (Double.IsInfinity(value) || Double.IsNaN(value))
+                {
+                    value = ts.NullValue;
+                }
                 events.Add( new EventComplexType
                     {
                         date = fewsDT.date,
                         time = fewsDT.time,
                         flag = 2,
                         flagSpecified = true,
-                        value = ts[i],
+                        value = value,
                         valueSpecified = true
                     });
             }
