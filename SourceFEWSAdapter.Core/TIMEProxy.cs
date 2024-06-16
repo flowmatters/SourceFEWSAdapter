@@ -34,7 +34,7 @@ namespace SourceFEWSAdapter.Core
                     startDate = new DateTimeComplexType {DateTime = MergeDT(ts.Start,forcedTimeStamp)},
                     endDate = new DateTimeComplexType {DateTime = MergeDT(ts.End,forcedTimeStamp)},
                     missVal = ts.NullValue,
-                    units = PIUnits(ts),
+                    units = ts.units.SIUnits,
                     timeStep = PITimeStep(ts.timeStep),
                     parameterId = ParameterName(ts.name)
                 };
@@ -107,20 +107,20 @@ namespace SourceFEWSAdapter.Core
             return (int) timeStep.GetTimeSpan().TotalSeconds;
         }
 
-        private static string PIUnits(TimeSeries ts)
-        {
-            Unit units = ts.units;
-            if (Unit.PredefinedUnit(CommonUnits.MLPerDay).Equals(units))
-                return "MLD";
+        //private static string PIUnits(TimeSeries ts)
+        //{
+        //    Unit units = ts.units;
+        //    if (Unit.PredefinedUnit(CommonUnits.MLPerDay).Equals(units))
+        //        return "MLD";
 
-            if (Unit.PredefinedUnit(CommonUnits.megaLitre).Equals(units))
-                return "ML_"+ts.timeStep.Name;
+        //    if (Unit.PredefinedUnit(CommonUnits.megaLitre).Equals(units))
+        //        return "ML_"+ts.timeStep.Name;
 
-            if (ts.timeStep.Equals(TimeStep.Daily)) return "MLD";
+        //    if (ts.timeStep.Equals(TimeStep.Daily)) return "MLD";
 
-            if (ts.timeStep.Equals(TimeStep.Hourly)) return "MLH";
+        //    if (ts.timeStep.Equals(TimeStep.Hourly)) return "MLH";
 
-            return units.Name;
-        }
+        //    return units.Name;
+        //}
     }
 }
