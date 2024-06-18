@@ -67,6 +67,11 @@ namespace SourceFEWSAdapter.Core
             foreach (var e in fewsTS.@event)
             {
                 var dt = DateTimeComplexType.Merge(e.date, e.time);
+                var val = e.value;
+                if (val == header.missVal)
+                {
+                    val = result.NullValue;
+                }
                 result.setTime(dt,e.value);
             }
 
