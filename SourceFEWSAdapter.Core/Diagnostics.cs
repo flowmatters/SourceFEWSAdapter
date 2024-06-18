@@ -18,9 +18,17 @@ namespace SourceFEWSAdapter.Core
         {
             Command = command;
             FilePath = path;
-            diagnosticsDOM = new DiagComplexType();
-            diagnosticsDOM.CopyTimeZoneInfo(tzInfo);
-            diagnosticsDOM.line = new LineComplexType[0];
+
+            if (File.Exists(FilePath))
+            {
+                diagnosticsDOM = FEWSPIProxy.ReadFromXML<DiagComplexType>(FilePath);
+            }
+            else
+            {
+                diagnosticsDOM = new DiagComplexType();
+                diagnosticsDOM.CopyTimeZoneInfo(tzInfo);
+                diagnosticsDOM.line = new LineComplexType[0];
+            }
         }
 
         private string Command;
