@@ -69,6 +69,10 @@ namespace SourceFEWSAdapter.FEWSPI
         public TimeSeriesComplexType[] AllInputSeries()
         {
             var result = new List<TimeSeriesComplexType>();
+            if (inputTimeSeriesFile == null)
+            {
+                return result.ToArray();
+            }
 
             foreach (string fn in inputTimeSeriesFile)
                 result.AddRange(FEWSPIProxy.ReadTimeSeries(fn).series);
