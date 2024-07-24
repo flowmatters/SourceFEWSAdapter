@@ -18,7 +18,7 @@ namespace SourceFEWSAdapter.Commands
 
             var sourceCommand = BuildCommandLine(runSettings, diagnostics, out var sourceOutput);
 
-            diagnostics.Log(3, string.Format("Starting Source Run with command line {0}",sourceCommand));
+            diagnostics.Log(Diagnostics.LEVEL_INFO, string.Format("Starting Source Run with command line {0}",sourceCommand));
 
             ProcessStartInfo startInfo = new ProcessStartInfo
                 {
@@ -46,7 +46,7 @@ namespace SourceFEWSAdapter.Commands
                 throw new Exception(string.Format("Source run failed. No output file: {0}", sourceOutput));
             }
 
-            diagnostics.Log(3,"All done");
+            diagnostics.Log(Diagnostics.LEVEL_INFO, "All done");
         }
 
         private static string BuildCommandLine(RunComplexType runSettings, Diagnostics diagnostics, out string sourceOutput)
@@ -67,7 +67,7 @@ namespace SourceFEWSAdapter.Commands
 
             if (File.Exists(sourceOutput))
             {
-                diagnostics.Log(3, string.Format("Deleting old source output file {0}", sourceOutput));
+                diagnostics.Log(Diagnostics.LEVEL_INFO, string.Format("Deleting old source output file {0}", sourceOutput));
                 File.Delete(sourceOutput);
             }
 
@@ -76,7 +76,7 @@ namespace SourceFEWSAdapter.Commands
             if (mode == "")
             {
                 if (runSettings.ConfiguredServer() != "")
-                    diagnostics.Log(3,
+                    diagnostics.Log(Diagnostics.LEVEL_INFO,
                         string.Format("Running locally because configured server ({0}) is unavailable",
                             runSettings.ConfiguredServer()));
             }

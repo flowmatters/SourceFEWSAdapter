@@ -10,9 +10,9 @@ namespace SourceFEWSAdapter.Core
     public class Diagnostics
     {
         public const int LEVEL_INFO = 3;
-        public const int LEVEL_WARNING = 4;
-        public const int LEVEL_ERROR = 5;
-        public const int LEVEL_FATAL = 6;
+        public const int LEVEL_WARNING = 2;
+        public const int LEVEL_ERROR = 1;
+        public const int LEVEL_FATAL = 0;
 
         public Diagnostics(string path, string command, RunComplexType tzInfo)
         {

@@ -37,7 +37,7 @@ namespace SourceFEWSAdapter.Commands
                 WriteSourceInputsToFilePerParameter(runSettings, inputSeries);
             }
 
-            diagnostics.Log(3, "All Done");
+            diagnostics.Log(Diagnostics.LEVEL_INFO, "All Done");
         }
 
         private static void WriteInputsUsingQualifier(RunComplexType runSettings,
