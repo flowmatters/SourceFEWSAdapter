@@ -25,7 +25,7 @@ namespace SourceFEWSAdapter.Commands
                 return;
             }
 
-            var haveQualifiers = inputSeries.All(s => (s.SourceInputFile() != null) && (s.SourceColumnNumber() >= 0));
+            var haveQualifiers = inputSeries.All(s => s.SourceInputFile() != null);
             if (haveQualifiers)
             {
                 diagnostics.Log(Diagnostics.LEVEL_INFO,"Using qualifierId to determine target CSV files");

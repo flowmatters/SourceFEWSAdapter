@@ -27,6 +27,13 @@ namespace SourceFEWSAdapter
 
         public TimeSeries[] Load()
         {
+            if (IO == null)
+            {
+                var io = new CSVFileIO();
+                io.Load(Filename);
+                return io.DataSets.Select(d => d as TimeSeries).ToArray();
+            }
+
             try
             {
                 var data = new ArrayList();
@@ -42,6 +49,11 @@ namespace SourceFEWSAdapter
 
         public void Save(TimeSeries[] data)
         {
+            if (IO == null)
+            {
+                NonInteractiveIO.Save(Filename, data);
+                return;
+            }
             try
             {
                 using (var writer = new FileWriter(Filename))
@@ -62,7 +74,7 @@ namespace SourceFEWSAdapter
             {
                 var styles = (from t in AssemblyManager.FindTypes(typeof(AbstractCsvStyleFileIo))
                     select Activator.CreateInstance(t) as AbstractCsvStyleFileIo).ToList();
-                var firstValidStyle = styles.First(item => item.DetectIfValid(fp));
+                var firstValidStyle = styles.FirstOrDefault(item => item.DetectIfValid(fp));
                 return firstValidStyle;
             }
         }
