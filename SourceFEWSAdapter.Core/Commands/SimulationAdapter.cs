@@ -37,7 +37,7 @@ namespace SourceFEWSAdapter.Commands
             Console.WriteLine(output);
             Console.WriteLine(errors);
             foreach (string line in errors.Split('\n'))
-                diagnostics.Log(Diagnostics.LEVEL_ERROR, line);
+                diagnostics.Log(Diagnostics.LEVEL_WARNING, line);
 
             if ((sourceOutput!=null)&&!File.Exists(sourceOutput))
             {
