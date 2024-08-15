@@ -55,7 +55,7 @@ namespace SourceFEWSAdapter.Commands
                 var existing = proxy.Load();
                 diagnostics.Log(Diagnostics.LEVEL_INFO,$"Replacing {inputTS.Count}/{existing.Length} time series in {destFn}");
                 var clipped = existing.Select(ts => ts.extract(start, end)).ToArray();
-                foreach (var ts in inputSeries)
+                foreach (var ts in inputTS)
                 {
                     var sourceTS = FEWSPIProxy.ConvertTimeSeriesFromFEWS(ts);
                     var col = ts.SourceColumnNumber();
