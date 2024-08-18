@@ -89,7 +89,7 @@ namespace SourceFEWSAdapter.Core
 
         private static string[] NameComponents(string name)
         {
-            return name.Split('\\');
+            return name.Trim('"').Trim().Split('\\');
         }
 
         private static BiDictionary<TimeStep, timeStepUnitEnumStringType> timeStepBaseConversion = new BiDictionary<TimeStep, timeStepUnitEnumStringType>()
