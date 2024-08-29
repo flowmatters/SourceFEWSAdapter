@@ -93,7 +93,18 @@ namespace SourceFEWSAdapter.FEWSPI
         {
             get
             {
-                return Property(Keys.PROJECT_FILE);
+                var fn = FromRunSettingsOrParameters(Keys.PROJECT_FILE)[0];
+                if (Path.IsPathRooted(fn))
+                {
+                    return fn;
+                }
+
+                var projectPath = FromRunSettingsOrParameters(Keys.PROJECT_FOLDER).FirstOrDefault();
+                if (projectPath == null)
+                {
+                    return fn;
+                }
+                return Path.Combine(projectPath, fn);
             }
         }
 

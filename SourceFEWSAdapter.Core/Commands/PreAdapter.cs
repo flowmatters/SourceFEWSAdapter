@@ -25,7 +25,7 @@ namespace SourceFEWSAdapter.Commands
                 return;
             }
 
-            var haveQualifiers = inputSeries.All(s => s.SourceInputFile() != null);
+            var haveQualifiers = inputSeries.Any(s => s.SourceInputFile() != null);
             if (haveQualifiers)
             {
                 diagnostics.Log(Diagnostics.LEVEL_INFO,"Using qualifierId to determine target CSV files");
@@ -43,7 +43,14 @@ namespace SourceFEWSAdapter.Commands
         private static void WriteInputsUsingQualifier(RunComplexType runSettings,
             TimeSeriesComplexType[] inputSeries, Diagnostics diagnostics)
         {
-            var files = inputSeries.Select(s => s.SourceInputFile()).ToHashSet();
+            Func<TimeSeriesComplexType, bool> missingQualifiers = s => (s.SourceInputFile() == null) || (s.SourceColumnNumber() < 0);
+
+            foreach (var timeSeriesComplexType in inputSeries.Where(missingQualifiers))
+            {
+                diagnostics.Log(Diagnostics.LEVEL_WARNING,$"Timeseries missing qualifier: {timeSeriesComplexType?.header?.locationId}/{timeSeriesComplexType?.header?.parameterId}");
+            }
+
+            var files = inputSeries.Where(s=>!missingQualifiers(s)).Select(s => s.SourceInputFile()).ToHashSet();
 
             foreach (var relFn in files)
             {

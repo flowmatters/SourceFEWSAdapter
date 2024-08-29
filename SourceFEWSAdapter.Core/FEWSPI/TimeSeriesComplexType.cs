@@ -11,7 +11,7 @@ namespace SourceFEWSAdapter.FEWSPI
 
         public string SourceInputFile()
         {
-            var fileQualifier = header.qualifierId.FirstOrDefault(q => q.StartsWith("file:"));
+            var fileQualifier = header.qualifierId?.FirstOrDefault(q => q.StartsWith("file:"));
             return fileQualifier?.Substring(5);
         }
 
@@ -19,7 +19,7 @@ namespace SourceFEWSAdapter.FEWSPI
 
         public int SourceColumnNumber()
         {
-            var columnQualifier = header.qualifierId.FirstOrDefault(q => q.StartsWith("column:"));
+            var columnQualifier = header.qualifierId?.FirstOrDefault(q => q.StartsWith("column:"));
             if (columnQualifier == null)
             {
                 return -1;
