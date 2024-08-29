@@ -11,6 +11,7 @@ namespace SourceFEWSAdapter
         public const string PLUGIN_DIR = "PluginDir";
         public const string PLUGIN_FN = "Plugin";
         public const string PROJECT_FILE = "RSPROJ";
+        public const string PROJECT_FOLDER = "RSPROJ_Folder";
         public const string OUTPUT_FILE = "SourceOutputFile";
         public const string SOURCE64 = "Source_64EXE";
         public const string SOURCE32 = "Source_32EXE";
@@ -21,6 +22,7 @@ namespace SourceFEWSAdapter
         public const string PORT = "Port";
         public const string URI = "URI";
         public const string INPUT_SET = "InputSet";
+        //public const string RECORDER_SET = "RecorderSetFile";
         public static string HelpText()
         {
             var t = typeof(Keys);

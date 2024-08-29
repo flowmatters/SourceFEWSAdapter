@@ -220,6 +220,10 @@ namespace SourceFEWSAdapter.FEWSPI
             return fromParams.Select(p=>Path.IsPathRooted(p)?p:Path.Combine(folder,p)).ToHashSet().ToArray();
         }
 
+        public string[] CommandLineArguments()
+        {
+            return Array.Empty<string>();
+        }
         private IEnumerable<ModelParameterGroupComplexType> ParameterGroups()
         {
             return inputParameterFile.SelectMany(fn => FEWSPIProxy.ReadParametersFile(fn).group);
