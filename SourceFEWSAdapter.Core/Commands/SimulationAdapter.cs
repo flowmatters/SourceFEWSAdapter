@@ -142,7 +142,7 @@ namespace SourceFEWSAdapter.Commands
             }
             else
             {
-                sourceCommand += $" -o {sourceOutput}";
+                sourceCommand += $" -o \"{sourceOutput}\"";
             }
 
             var inputSet = runSettings.InputSet();
