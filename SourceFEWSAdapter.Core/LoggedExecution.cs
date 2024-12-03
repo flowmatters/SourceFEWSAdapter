@@ -28,11 +28,13 @@ namespace SourceFEWSAdapter.Core
             }
             catch (Exception e)
             {
-                diagnostics.Log(Diagnostics.LEVEL_ERROR, string.Format("Exception ({0}: {1}", e.GetType(), e.Message));
+                diagnostics.Log(Diagnostics.LEVEL_ERROR,
+                    string.Format("Exception ({0}: {1}", e.GetType(), e.Message));
                 foreach (string s in e.StackTrace.Split('\n'))
                 {
-                    diagnostics.Log(Diagnostics.LEVEL_ERROR,s);
+                    diagnostics.Log(Diagnostics.LEVEL_ERROR, s);
                 }
+
                 exception = true;
             }
             finally

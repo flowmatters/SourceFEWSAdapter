@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using CsvHelper;
 using System.Reflection.Emit;
 using System.Text;
+using System.Xml;
+using Microsoft.VisualBasic.FileIO;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.FEWSPI;
 using TIME.DataTypes;
 using TIME.DataTypes.IO.CsvFileIo;
+using TIME.ManagedExtensions;
 using TIME.Management;
 
 namespace SourceFEWSAdapter.Commands
@@ -25,8 +29,12 @@ namespace SourceFEWSAdapter.Commands
                 return;
             }
 
-            var haveQualifiers = inputSeries.Any(s => s.SourceInputFile() != null);
-            if (haveQualifiers)
+            var haveInputMapping = inputSeries.Any(s => s.SourceInputFile() != null);
+            if (runSettings.InputTimeSeriesMapping() != null)
+            {
+                WriteInputsUsingMappingFile(runSettings, inputSeries, diagnostics);
+            }
+            else if (haveInputMapping)
             {
                 diagnostics.Log(Diagnostics.LEVEL_INFO,"Using qualifierId to determine target CSV files");
                 WriteInputsUsingQualifier(runSettings, inputSeries,diagnostics);
@@ -38,6 +46,60 @@ namespace SourceFEWSAdapter.Commands
             }
 
             diagnostics.Log(Diagnostics.LEVEL_INFO, "All Done");
+        }
+
+        private static void WriteInputsUsingMappingFile(RunComplexType runSettings, TimeSeriesComplexType[] inputSeries, Diagnostics diagnostics)
+        {
+            var inputMappingFn = runSettings.InputTimeSeriesMapping();
+            var mapping = ReadInputMapping(inputMappingFn);
+
+            foreach (var ts in inputSeries)
+            {
+                try
+                {
+                    var dest = mapping[new Tuple<string, string>(ts.header.locationId, ts.header.parameterId)];
+                    ts.AddQualifier($"file:{dest.Item1}");
+                    ts.AddQualifier($"column:{dest.Item2}");
+                }
+                catch (KeyNotFoundException e)
+                {
+                    diagnostics.Log(Diagnostics.LEVEL_WARNING,$"No file mapping found for timeseries ${ts.header.locationId}/${ts.header.parameterId}");
+                }
+            }
+            WriteInputsUsingQualifier(runSettings, inputSeries, diagnostics);
+        }
+
+        private static Dictionary<Tuple<string, string>, Tuple<string, int>> ReadInputMapping(string inputMappingFn)
+        {
+            const string
+                COL_LOCATION = "ToFirmId",
+                COL_PARAM = "ToParameter",
+                COL_FILE = "ToCsvFileName",
+                COL_COL_NUM = "ToColumnNumber";
+            var mapping =
+                new Dictionary<Tuple<string, string>, Tuple<string, int>>();
+            using (var csvParser = new TextFieldParser(inputMappingFn))
+            {
+                csvParser.CommentTokens = new string[] { "#" };
+                csvParser.SetDelimiters(new string[] { "," });
+                csvParser.HasFieldsEnclosedInQuotes = true;
+
+                // Skip the row with the column names
+                var columnNames = csvParser.ReadFields();
+
+                while (!csvParser.EndOfData)
+                {
+                    // Read current line fields, pointer moves to the next line.
+                    string[] fields = csvParser.ReadFields();
+                    string location  = fields[columnNames.IndexOf(COL_LOCATION)];
+                    string parameter = fields[columnNames.IndexOf(COL_PARAM)];
+                    string filename  = fields[columnNames.IndexOf(COL_FILE)];
+                    int column = int.Parse(fields[columnNames.IndexOf(COL_COL_NUM)]);
+                    mapping[new Tuple<string, string>(location,parameter)] = new Tuple<string, int>(filename, column);
+                }
+            }
+
+            return mapping;
         }
 
         private static void WriteInputsUsingQualifier(RunComplexType runSettings,

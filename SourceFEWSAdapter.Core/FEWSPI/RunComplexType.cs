@@ -205,19 +205,20 @@ namespace SourceFEWSAdapter.FEWSPI
             return FromRunSettingsOrParameters(Keys.PLUGIN_DIR).FirstOrDefault() ?? "";
         }
 
-        public string[] Plugins()
+        public HashSet<string> Plugins()
         {
-            var inRunSettings = Properties(Keys.PLUGIN_FN);
             var paramGroup = ParameterGroup("ModelInput");
-            if (paramGroup == null)
+            HashSet<string> allPlugins = new HashSet<string>();
+            if (paramGroup != null)
             {
-                return inRunSettings;
+                var fromParams = paramGroup.Items.Where(p => (p as ModelParameterComplexType).id == Keys.PLUGIN_FN)
+                    .Select(p => (p as ModelParameterComplexType).Item as string).ToHashSet();
+                allPlugins.AddRange(fromParams);
             }
-            var fromParams = paramGroup.Items.Where(p=> (p as ModelParameterComplexType).id == Keys.PLUGIN_FN)
-                .Select(p=>(p as ModelParameterComplexType).Item as string).ToHashSet();
-            fromParams.AddRange(inRunSettings);
+
+            allPlugins.AddRange(Properties(Keys.PLUGIN_FN));
             var folder = PluginFolder();
-            return fromParams.Select(p=>Path.IsPathRooted(p)?p:Path.Combine(folder,p)).ToHashSet().ToArray();
+            return allPlugins.Select(p => Path.IsPathRooted(p) ? p : Path.Combine(folder, p)).ToHashSet();
         }
 
         public string[] CommandLineArguments()
@@ -263,6 +264,17 @@ namespace SourceFEWSAdapter.FEWSPI
             return filename;
         }
 
+
+        public string InputTimeSeriesMapping()
+        {
+            var result = FromRunSettingsOrParameters(Keys.INPUT_MAPPING_FILE);
+            if (result.Length > 0)
+            {
+                return result[0];
+            }
+
+            return null;
+        }
         public string TimeZoneTag()
         {
             if (daylightSavingObservingTimeZone == DaylightSavingObservedTimeZoneEnumStringType.None)

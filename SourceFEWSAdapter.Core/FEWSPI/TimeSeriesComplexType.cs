@@ -8,7 +8,19 @@ namespace SourceFEWSAdapter.FEWSPI
 {
     public partial class TimeSeriesComplexType
     {
+        public void AddQualifier(string qualifier)
+        {
+            if (header.qualifierId == null)
+            {
+                header.qualifierId = new[] { qualifier };
+                return;
+            }
 
+            var arr = header.qualifierId;
+            Array.Resize(ref arr,header.qualifierId.Length+1);
+            arr[arr.Length - 1] = qualifier;
+            header.qualifierId = arr;
+        }
         public string SourceInputFile()
         {
             var fileQualifier = header.qualifierId?.FirstOrDefault(q => q.StartsWith("file:"));

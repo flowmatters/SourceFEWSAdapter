@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -152,6 +151,12 @@ namespace SourceFEWSAdapter.Commands
             }
 
             var plugins = runSettings.Plugins();
+            foreach (var notPlugin in plugins.Where(p => !p.ToLower().EndsWith(".dll")))
+            {
+                diagnostics.Log(Diagnostics.LEVEL_WARNING,$"Not a plugin: {notPlugin}");
+            }
+
+            plugins = plugins.Where(p => p.ToLower().EndsWith(".dll")).ToHashSet();
             foreach (var plugin in plugins)
             {
                 sourceCommand += $" -l \"{plugin}\"";

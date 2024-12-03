@@ -22,6 +22,7 @@ namespace SourceFEWSAdapter
         public const string PORT = "Port";
         public const string URI = "URI";
         public const string INPUT_SET = "InputSet";
+        public const string INPUT_MAPPING_FILE = "InputMappingFile";
         //public const string RECORDER_SET = "RecorderSetFile";
         public static string HelpText()
         {
