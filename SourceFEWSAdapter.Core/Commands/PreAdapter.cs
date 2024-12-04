@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using CsvHelper;
-using System.Reflection.Emit;
-using System.Text;
-using System.Xml;
 using Microsoft.VisualBasic.FileIO;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.FEWSPI;
 using TIME.DataTypes;
 using TIME.DataTypes.IO.CsvFileIo;
 using TIME.ManagedExtensions;
-using TIME.Management;
 
 namespace SourceFEWSAdapter.Commands
 {
@@ -61,7 +54,7 @@ namespace SourceFEWSAdapter.Commands
                     ts.AddQualifier($"file:{dest.Item1}");
                     ts.AddQualifier($"column:{dest.Item2}");
                 }
-                catch (KeyNotFoundException e)
+                catch (KeyNotFoundException)
                 {
                     diagnostics.Log(Diagnostics.LEVEL_WARNING,$"No file mapping found for timeseries ${ts.header.locationId}/${ts.header.parameterId}");
                 }
@@ -72,8 +65,8 @@ namespace SourceFEWSAdapter.Commands
         private static Dictionary<Tuple<string, string>, Tuple<string, int>> ReadInputMapping(string inputMappingFn)
         {
             const string
-                COL_LOCATION = "ToFirmId",
-                COL_PARAM = "ToParameter",
+                COL_LOCATION = "FewsLocationId",
+                COL_PARAM = "FewsParameterId",
                 COL_FILE = "ToCsvFileName",
                 COL_COL_NUM = "ToColumnNumber";
             var mapping =

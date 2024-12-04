@@ -2,7 +2,6 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using CsvHelper;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.FEWSPI;
 using TIME.DataTypes;
