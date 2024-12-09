@@ -37,6 +37,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.31.0.2\lib\net48\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="eWater.Utilities.Math">
       <HintPath>..\References\eWater.Utilities.Math.dll</HintPath>
     </Reference>

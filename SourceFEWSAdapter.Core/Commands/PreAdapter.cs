@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualBasic.FileIO;
+using CsvHelper;
 using SourceFEWSAdapter.Core;
 using SourceFEWSAdapter.FEWSPI;
 using TIME.DataTypes;
