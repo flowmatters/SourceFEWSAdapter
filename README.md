@@ -78,6 +78,7 @@ As noted, above, the adapter requires you to configure various options and these
 | `PluginDir` | Used where the source model (`RSPROJ`) requires one or more plugins to be loaded. The plugin DLLs should be placed in the directory as noted. If this option is used, then an additional `<executeActivity>` should be configured to call the adapter with the `loadplugins` command. | No |
 | `Plugin` | | No |
 | `UserPortOffsets` | Points to a file contain port offsets based on username. Used in multi-user environments, such as Citrix. | No |
+| `InputMappingFile` | Points to a CSV file to used to map FEWS time series locations and parameters to Source input files and columns. | No |
 
 The following example (in [groovyFEWS] form) illustrates many of the properties:
 
@@ -107,9 +108,10 @@ The source model should be configured such that:
 There are several options for mapping input timeseries to the correct input in Source:
 
 * **Simple mapping:** Using the `ExpectedFile_<parameter_name>` property, where all timeseries for a given parameter are mapped to a single input CSV file for Source, and
-* **Custom mapping:** Where individual scalar time series can be placed within particular CSV files based on qualifiers in the exported timeseries file.
+* **Qualifier mapping:** Where individual scalar time series can be placed within particular CSV files based on qualifiers in the exported timeseries file.
+* **Explicit mapping:** Where the adapter is provided with a separate table (via `InputMappingFile`) that maps FEWS locations and parameters to Source input files and columns.
 
-**Note, these modes cannot be mixed in a single module, so if one or more timeseries needs to be mapped using custom mapping, then all timeseries should be configured using custom mapping.**
+**Note, these modes cannot be mixed in a single module, so if one or more timeseries needs to be mapped using custom mapping (qualifiers or explicit), then all timeseries should be configured using custom mapping.**
 
 ### Simple time series mapping
 
@@ -125,9 +127,9 @@ Using Simple time series mapping, the adapter will place the exported time serie
 
 **Note:** With simple time series mapping, the adapter writes out the complete CSV file with the exported timeseries and any existing file on disk is removed.
 
-### Custom time series mapping
+### Time series mapping with qualifiers
 
-With custom time series mapping, the destination of each exported scalar time series can be specified by including two qualifiers in the header of the time series:
+With qualifier time series mapping, the destination of each exported scalar time series can be specified by including two qualifiers in the header of the time series:
 
 * `file:<filename.csv>`, and
 * `column:<one based column number>`
@@ -142,6 +144,30 @@ Such as
 This approach is useful where the Source model has complex data mappings.
 
 **Note:** With the custom time series mapping, the specified CSV file must exist on disk. The adapter will **replace** the data in the specified file/column with the exported time series. Any columns that are not replaced will contain the original data, however the CSV file itself will be trimmed to the time period of the exported data.
+
+### Time series mapping file
+
+A time series mapping file can be provided to the adapter to translate each FEWS location and parameter pair to a Source input filename and column.
+
+The CSV file should contain a single line header and the following columns:
+
+* `FewsLocationId`: FEWS location ID as used in the FEWS PI file exported as part of the General Adapter
+* `FewsParameterId`: FEWS parameter ID as used in the FEWS PI file exported as part of the General Adapter
+* `ToCsvFileName`: Path to input CSV file to modify, relative to the model file
+* `ToColumnNumber`: Column within the CSV file to replace with data from FEWS.
+
+Importantly, in both `FewsLocationId` and `FewsParameterId`, the identifiers should be those used in the FEWS PI file exported by FEWS, taking account of any id-mapping. In most cases it will be simplest to use the internal identifiers of the FEWS system and to export without any additional id-mapping.
+
+Example:
+
+```csv
+FewsLocationId,FewsParameterId,ToCsvFileName,ToColumnNumber
+F_InflowABCDEF,Flow,Inputs\Inflows.csv,5
+F_Gauge123456,Flow,Inputs\Gauges.csv,2
+F_InflowUVWXYZ,Flow,Inputs\Inflows.csv,2
+```
+
+Any extra columns in the CSV are ignored.
 
 ## Importing Source Results To FEWS
 
