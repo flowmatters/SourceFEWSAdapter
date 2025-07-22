@@ -20,9 +20,11 @@ namespace SourceFEWSAdapter.Commands
                 sourceOutputFn = runSettings.workDir + Path.PathSeparator + sourceOutputFn;
             }
             diagnostics.Log(Diagnostics.LEVEL_INFO,$"Loading results from {sourceOutputFn}");
-            TimeSeries[] results =
-                (TimeSeries[])
-                NonInteractiveIO.Load(sourceOutputFn);
+            //TimeSeries[] results =
+            //    (TimeSeries[])
+            //    NonInteractiveIO.Load(sourceOutputFn);
+            var proxy = new SourceTimeSeriesIOProxy(sourceOutputFn,diagnostics);
+            var results= proxy.Load();
 
             if (results is null)
             {
