@@ -114,18 +114,52 @@ namespace SourceFEWSAdapter.Commands
                 var start = inputTS[0].header.startDate.DateTime;
                 var end = inputTS[0].header.endDate.DateTime;
                 var destFn = Path.IsPathRooted(relFn) ? relFn : runSettings.PathRelativeToProject(relFn);
-                var proxy = new SourceTimeSeriesIOProxy(destFn);
-                var existing = proxy.Load();
-                diagnostics.Log(Diagnostics.LEVEL_INFO,$"Replacing {inputTS.Count}/{existing.Length} time series in {destFn}");
-                var clipped = existing.Select(ts => ts.extract(start, end)).ToArray();
-                foreach (var ts in inputTS)
+                var proxy = new SourceTimeSeriesIOProxy(destFn,diagnostics);
+                var persistent = proxy.Load();
+                diagnostics.Log(Diagnostics.LEVEL_INFO,$"Replacing {inputTS.Count}/{persistent.Length} time series in {destFn}");
+                //var clipped = existing.Select(ts => ts.extract(start, end)).ToArray();
+
+                // Check if override timeseries exceed current window....
+                var newTimeSeries = inputTS.Select(ts => FEWSPIProxy.ConvertTimeSeriesFromFEWS(ts)).ToList();
+                if ((newTimeSeries[0].Start < persistent[0].Start) || (newTimeSeries[0].End > persistent[0].End))
                 {
-                    var sourceTS = FEWSPIProxy.ConvertTimeSeriesFromFEWS(ts);
-                    var col = ts.SourceColumnNumber();
-                    sourceTS.name = clipped[col].name;
-                    clipped[col] = sourceTS;
+                    var newStart = (newTimeSeries[0].Start < persistent[0].Start)
+                        ? newTimeSeries[0].Start
+                        : persistent[0].Start;
+                    var newEnd = (newTimeSeries[0].End > persistent[0].End)
+                        ? newTimeSeries[0].End
+                        : persistent[0].End;
+                    var template = new TimeSeries(newStart, newEnd, TimeStep.Daily);
+                    persistent = persistent.Select(ts =>
+                    {
+                        var result = template.blankData() as TimeSeries;
+                        result.name = ts.name;
+                        result.units = ts.units;
+                        CopyInto(ts, result);
+                        return result;
+                    }).ToArray();
                 }
-                proxy.Save(clipped);
+                for(var tsIdx=0; tsIdx < newTimeSeries.Count; tsIdx++)
+                {
+                    var fewsTS = inputTS[tsIdx];
+                    //var sourceTS = FEWSPIProxy.ConvertTimeSeriesFromFEWS(ts);
+                    var sourceTS = newTimeSeries[tsIdx];
+                    var col = fewsTS.SourceColumnNumber();
+                    sourceTS.name = persistent[col].name;
+                    var dest = persistent[col].copy() as TimeSeries;
+                    CopyInto(sourceTS,dest);
+                    persistent[col] = dest;
+                }
+                proxy.Save(persistent);
+            }
+        }
+
+        private static void CopyInto(TimeSeries src, TimeSeries dest)
+        {
+            var startIx = dest.itemForTime(src.Start);
+            for (var i = 0; i < src.Count; i++)
+            {
+                dest[startIx + i] = src[i];
             }
         }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using SourceFEWSAdapter.Core;
 using TIME.DataTypes;
 using TIME.DataTypes.IO.CsvFileIo;
 using TIME.Management;
@@ -18,11 +19,14 @@ namespace SourceFEWSAdapter
         public AbstractCsvStyleFileIo IO {get; private set; }
 
         public List<string> Labels { get; private set; }
-        public SourceTimeSeriesIOProxy(string fn)
+
+        public Diagnostics Diagnostics { get; private set; }
+        public SourceTimeSeriesIOProxy(string fn, Diagnostics diag)
         {
             Filename = fn;
             Labels = new List<string>();
             IO = GetIO();
+            Diagnostics = diag;
         }
 
         public TimeSeries[] Load()
@@ -65,6 +69,11 @@ namespace SourceFEWSAdapter
             catch
             {
                 NonInteractiveIO.Save(Filename, data);
+                if (IO is ResultsCsvIoV1)
+                {
+                    Diagnostics?.Log(Diagnostics.LEVEL_INFO, $"Converting {Filename} to res-csv V1 to match original");
+                    ConvertResCSVV3ToV1(Filename);
+                }
             }
         }
 
@@ -78,6 +87,43 @@ namespace SourceFEWSAdapter
                 return firstValidStyle;
             }
         }
+        public static void ConvertResCSVV3ToV1(string filename)
+        {
+            string[] data = null;
+            using (var reader = new FileReader(filename))
+            {
+                using (var sr = new StreamReader(reader.Create()))
+                {
+                    data = sr.ReadToEnd().Split(new string[] { "\r\n", "\r", "\n" },StringSplitOptions.None);
+                    data[0] = "File version,1";
+                    for (int line = 1; line < data.Length; line++)
+                    {
+                        var txt = data[line];
+                        data[line] = "";
+                        if (txt == "EOM")
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            WriteLines(filename, data);
+        }
 
+        private static void WriteLines(string filename, string[] data)
+        {
+            data = data.Where(ln => ln.Length > 0).ToArray();
+
+            using (var writer = new FileWriter(filename))
+            {
+                using (var sw = new StreamWriter(writer.Create()))
+                {
+                    foreach (var line in data)
+                    {
+                        sw.WriteLine(line);
+                    }
+                }
+            }
+        }
     }
 }
