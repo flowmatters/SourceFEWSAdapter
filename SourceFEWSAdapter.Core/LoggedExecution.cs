@@ -16,7 +16,7 @@ namespace SourceFEWSAdapter.Core
             bool exception = false;
             RunComplexType runSettings = null;
             Diagnostics diagnostics = null;
-            if (File.Exists(args[1]))
+            if (File.Exists(args[1]) && args[1].EndsWith(".xml"))
             {
                 runSettings = FEWSPIProxy.ReadRunFile(args[1]);
                 diagnostics = new Diagnostics(runSettings.outputDiagnosticFile, args[0],runSettings);
@@ -28,18 +28,18 @@ namespace SourceFEWSAdapter.Core
             }
             catch (Exception e)
             {
-                diagnostics.Log(Diagnostics.LEVEL_ERROR,
+                diagnostics?.Log(Diagnostics.LEVEL_ERROR,
                     string.Format("Exception ({0}: {1}", e.GetType(), e.Message));
                 foreach (string s in e.StackTrace.Split('\n'))
                 {
-                    diagnostics.Log(Diagnostics.LEVEL_ERROR, s);
+                    diagnostics?.Log(Diagnostics.LEVEL_ERROR, s);
                 }
 
                 exception = true;
             }
             finally
             {
-                if(diagnostics!=null) diagnostics.Save();
+                diagnostics?.Save();
             }
 
             return exception ? 1 : 0;
