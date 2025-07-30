@@ -115,7 +115,17 @@ namespace SourceFEWSAdapter.Commands
                 var end = inputTS[0].header.endDate.DateTime;
                 var destFn = Path.IsPathRooted(relFn) ? relFn : runSettings.PathRelativeToProject(relFn);
                 var proxy = new SourceTimeSeriesIOProxy(destFn,diagnostics);
-                var persistent = proxy.Load();
+                TimeSeries[] persistent;
+                try
+                {
+                    persistent = proxy.Load();
+                }
+                catch
+                {
+                    diagnostics.Log(Diagnostics.LEVEL_FATAL,$"Error existing reading {destFn} for modification.");
+                    throw;
+                }
+
                 diagnostics.Log(Diagnostics.LEVEL_INFO,$"Replacing {inputTS.Count}/{persistent.Length} time series in {destFn}");
                 //var clipped = existing.Select(ts => ts.extract(start, end)).ToArray();
 
