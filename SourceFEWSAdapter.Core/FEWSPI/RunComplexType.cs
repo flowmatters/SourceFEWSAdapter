@@ -108,6 +108,14 @@ namespace SourceFEWSAdapter.FEWSPI
             }
         }
 
+        public string Scenario
+        {
+            get
+            {
+                return FromRunSettingsOrParameters(Keys.SCENARIO).FirstOrDefault();
+            }
+        }
+
         public string PathRelativeToProject(string relativePath)
         {
             var projectDir = Path.GetDirectoryName(ProjectFile);

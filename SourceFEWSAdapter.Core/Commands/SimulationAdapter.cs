@@ -144,6 +144,12 @@ namespace SourceFEWSAdapter.Commands
                 sourceCommand += $" -o \"{sourceOutput}\"";
             }
 
+            var scenario = runSettings.Scenario;
+            if (scenario != null)
+            {
+                sourceCommand += $" --scenario \"{scenario}\"";
+            }
+
             var inputSet = runSettings.InputSet();
             if (inputSet != null)
             {
