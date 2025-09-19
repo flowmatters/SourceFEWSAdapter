@@ -53,27 +53,28 @@ namespace SourceFEWSAdapter
 
         public void Save(TimeSeries[] data)
         {
-            if (IO == null)
+            if (IO != null && IO.SaveImplemented)
             {
-                NonInteractiveIO.Save(Filename, data);
-                return;
-            }
-            try
-            {
-                using (var writer = new FileWriter(Filename))
+                try
                 {
-                    using (var sw = new StreamWriter(writer.Create(), Encoding.Default, 512000))
-                        IO.Save(sw, new ArrayList(data), Labels);
+                    using (var writer = new FileWriter(Filename))
+                    {
+                        using (var sw = new StreamWriter(writer.Create(), Encoding.Default, 512000))
+                            IO.Save(sw, new ArrayList(data), Labels);
+                    }
+
+                    return;
+                }
+                catch
+                {
+                    // Do nothing. Fall back to noninteractiveio
                 }
             }
-            catch
+            NonInteractiveIO.Save(Filename, data);
+            if (IO is ResultsCsvIoV1)
             {
-                NonInteractiveIO.Save(Filename, data);
-                if (IO is ResultsCsvIoV1)
-                {
-                    Diagnostics?.Log(Diagnostics.LEVEL_INFO, $"Converting {Filename} to res-csv V1 to match original");
-                    ConvertResCSVV3ToV1(Filename);
-                }
+                Diagnostics?.Log(Diagnostics.LEVEL_INFO, $"Converting {Filename} to res-csv V1 to match original");
+                ConvertResCSVV3ToV1(Filename);
             }
         }
 
