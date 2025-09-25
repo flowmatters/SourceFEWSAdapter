@@ -65,7 +65,7 @@ namespace SourceFEWSAdapter
 
                     return;
                 }
-                catch
+                catch(NotImplementedException)
                 {
                     // Do nothing. Fall back to noninteractiveio
                 }
@@ -85,6 +85,13 @@ namespace SourceFEWSAdapter
                 var styles = (from t in AssemblyManager.FindTypes(typeof(AbstractCsvStyleFileIo))
                     select Activator.CreateInstance(t) as AbstractCsvStyleFileIo).ToList();
                 var firstValidStyle = styles.FirstOrDefault(item => item.DetectIfValid(fp));
+                if (firstValidStyle != null)
+                {
+                    if (firstValidStyle.Filter == null)
+                    {
+                        firstValidStyle.Filter = new CSVFileIO();
+                    }
+                }
                 return firstValidStyle;
             }
         }
