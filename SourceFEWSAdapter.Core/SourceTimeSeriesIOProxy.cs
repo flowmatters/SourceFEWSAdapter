@@ -84,7 +84,8 @@ namespace SourceFEWSAdapter
             {
                 var styles = (from t in AssemblyManager.FindTypes(typeof(AbstractCsvStyleFileIo))
                     select Activator.CreateInstance(t) as AbstractCsvStyleFileIo).ToList();
-                var firstValidStyle = styles.FirstOrDefault(item => item.DetectIfValid(fp));
+                var validStyles = styles.Where(item => item.DetectIfValid(fp)).ToList();
+                var firstValidStyle = SelectIOStyle(validStyles);
                 if (firstValidStyle != null)
                 {
                     if (firstValidStyle.Filter == null)
@@ -95,6 +96,32 @@ namespace SourceFEWSAdapter
                 return firstValidStyle;
             }
         }
+
+        private AbstractCsvStyleFileIo SelectIOStyle(List<AbstractCsvStyleFileIo> validStyles)
+        {
+            if (validStyles.Count > 1)
+            {
+                var filteredStyles = validStyles.Where(style => style.SaveImplemented).ToList();
+                if (filteredStyles.Count > 0)
+                {
+                    validStyles = filteredStyles;
+                }
+            }
+
+            if ((validStyles.Count > 1)&&(Filename.ToLower().EndsWith(".res.csv"))) 
+            {
+                var filteredStyles = validStyles.Where(style => style.GetType().Name.StartsWith("ResultsCsv")).ToList();
+                if (filteredStyles.Count > 0)
+                {
+                    validStyles = filteredStyles;
+                }
+            }
+
+            //validStyles = validStyles.Sort(style => style.GetType().Name);
+            var firstValidStyle = validStyles.FirstOrDefault();
+            return firstValidStyle;
+        }
+
         public static void ConvertResCSVV3ToV1(string filename)
         {
             string[] data = null;
