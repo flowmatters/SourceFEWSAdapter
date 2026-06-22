@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
-using System.Threading.Tasks;
 using SourceFEWSAdapter.Core;
 using TIME.DataTypes;
 using TIME.DataTypes.IO.CsvFileIo;
@@ -68,6 +66,7 @@ namespace SourceFEWSAdapter
                     using (var writer = new FileWriter(Filename))
                     {
                         using (var sw = new StreamWriter(writer.Create(), Encoding.Default, 512000))
+                        {
 #if NET8_0_OR_GREATER
                             // Source 6.x: AbstractCsvStyleFileIo.Save expects IList<TimeSeries>
                             IO.Save(sw, new List<TimeSeries>(data), Labels);
@@ -75,6 +74,7 @@ namespace SourceFEWSAdapter
                             // Source 5.x: AbstractCsvStyleFileIo.Save expects a non-generic ArrayList
                             IO.Save(sw, new ArrayList(data), Labels);
 #endif
+                        }
                     }
 
                     return;

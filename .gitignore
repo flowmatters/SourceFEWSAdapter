@@ -20,6 +20,7 @@ Output
 #Build inputs/artifacts populated by the pipeline (version-specific Source binaries, restored packages)
 References/
 packages/
+# GPU shader caches written by JetBrains/Chromium-based tooling to the project root
 DawnCache/
 GPUCache/
 
