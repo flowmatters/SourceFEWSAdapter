@@ -134,15 +134,10 @@ namespace SourceFEWSAdapter.FEWSPI
 
         private string FindServer()
         {
-            string configuredServer = ConfiguredServer();
-
-            if (configuredServer != "")
-            {
-                if (!SourceServiceUtils.SourceServerExists(configuredServer))
-                    return "";
-            }
-
-            return configuredServer;
+            // WCF-based liveness probe removed (see tag wcf-server-support-final).
+            // Client/server comms is handled by RiverSystem.CommandLine.exe; we simply
+            // pass through the configured server address.
+            return ConfiguredServer();
         }
 
         public string ConfiguredServer()

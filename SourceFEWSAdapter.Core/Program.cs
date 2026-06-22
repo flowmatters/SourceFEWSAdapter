@@ -17,8 +17,7 @@ namespace SourceFEWSAdapter
                 {"preadapter", PreAdapter.Run},
                 {"postadapter", PostAdapter.Run},
                 {"simulation", SimulationAdapter.Run},
-                {"loadplugins",LoadPluginAdapter.Run},
-                {"probe", ProbeServer.Run}
+                {"loadplugins",LoadPluginAdapter.Run}
             };
 
         public static int Main(string[] args)
@@ -44,7 +43,7 @@ namespace SourceFEWSAdapter
                 "\tSourceFEWSAdapter <command> <command-args>",
                 "",
                 "Where <command> is one of:",
-                "\tpreadapter, simulation, postadapter, loadplugins, probe",
+                "\tpreadapter, simulation, postadapter, loadplugins",
                 "",
                 "preadapter runsettingsfile.xml",
                 "\tConvert FEWS PI file to Source csv inputs based on settings in runsettingsfile.xml",
@@ -57,10 +56,6 @@ namespace SourceFEWSAdapter
                 "",
                 "loadplugins runsettingsfile.xml",
                 "\tConfigure the Source command line to load plugins from a folder designated in the runsettingsfile.xml",
-                "",
-                "probe serverendpoint",
-                "\tTest for the existence of a live Source server at the given URI.",
-                "\tExampe: SourceFEWSAdapter probe net.tcp://localhost:8765/eWater/Services/RiverSystemService",
                 "",
                 "Standard properties for runsettings XML file",
                 HELP_TEXT_PROP_MARKER,
