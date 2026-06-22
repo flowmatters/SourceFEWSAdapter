@@ -40,9 +40,17 @@ namespace SourceFEWSAdapter
 
             try
             {
+#if NET8_0_OR_GREATER
+                // Source 6.x: AbstractCsvStyleFileIo.Load expects IList<TimeSeries>
+                var data = new List<TimeSeries>();
+                IO.Load(Filename, data, Labels);
+                return data.ToArray();
+#else
+                // Source 5.x: AbstractCsvStyleFileIo.Load expects a non-generic ArrayList
                 var data = new ArrayList();
                 IO.Load(Filename, data, Labels);
                 return data.OfType<TimeSeries>().ToArray();
+#endif
             }
             catch
             {
@@ -60,7 +68,13 @@ namespace SourceFEWSAdapter
                     using (var writer = new FileWriter(Filename))
                     {
                         using (var sw = new StreamWriter(writer.Create(), Encoding.Default, 512000))
+#if NET8_0_OR_GREATER
+                            // Source 6.x: AbstractCsvStyleFileIo.Save expects IList<TimeSeries>
+                            IO.Save(sw, new List<TimeSeries>(data), Labels);
+#else
+                            // Source 5.x: AbstractCsvStyleFileIo.Save expects a non-generic ArrayList
                             IO.Save(sw, new ArrayList(data), Labels);
+#endif
                     }
 
                     return;
