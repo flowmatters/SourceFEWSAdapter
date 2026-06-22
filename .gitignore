@@ -17,6 +17,12 @@ obj/
 [Rr]elease*/
 Output
 
+#Build inputs/artifacts populated by the pipeline (version-specific Source binaries, restored packages)
+References/
+packages/
+DawnCache/
+GPUCache/
+
 #MonoDevelop
 *.pidb
 *.userprefs
