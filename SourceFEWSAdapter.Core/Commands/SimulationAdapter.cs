@@ -123,14 +123,7 @@ namespace SourceFEWSAdapter.Commands
 
             string mode = runSettings.ExecutionMode();
 
-            if (mode == "")
-            {
-                if (runSettings.ConfiguredServer() != "")
-                    diagnostics.Log(Diagnostics.LEVEL_INFO,
-                        string.Format("Running locally because configured server ({0}) is unavailable",
-                            runSettings.ConfiguredServer()));
-            }
-            else
+            if (mode != "")
                 sourceProject = "";
 
             var sourceCommand = $"-p \"{sourceProject};;{start.ToString(dateFormat)};{end.ToString(dateFormat)}\" {mode}";
