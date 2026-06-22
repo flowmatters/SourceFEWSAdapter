@@ -19,6 +19,35 @@ The core adapter is C#/.NET based and can be built with Visual Studio. The adapt
 
 The FEWS Explorer plugin is written Java. At the present time, the plugin is configured as an Eclipse project. The plugin references several JARs from the FEWS binary directory.
 
+## Multi-target build: net48 and net8.0-windows
+
+The adapter project (`SourceFEWSAdapter.Core/SourceFEWSAdapter.csproj`) is an SDK-style project that multi-targets **`net48;net8.0-windows`** in a single csproj file. Which build to use depends on the Source version:
+
+| Source version | .NET target | Notes |
+|---|---|---|
+| <= 5.x | `net48` | .NET Framework 4.8 |
+| 6+ | `net8.0-windows` | Source switched to .NET 8 at version 6; requires .NET 8 + Windows Desktop runtime |
+
+### Building manually
+
+Place the matching Source version's DLLs (at minimum `TIME.dll` and `eWater.Utilities.Math.dll`, plus other Source assemblies) into the `References/` folder, then:
+
+```shell
+# For Source <= 5.x
+dotnet build SourceFEWSAdapter.Core/SourceFEWSAdapter.csproj -f net48
+
+# For Source 6+
+dotnet build SourceFEWSAdapter.Core/SourceFEWSAdapter.csproj -f net8.0-windows
+```
+
+The [FIRM_SourceAdapter_Builds](https://dev.azure.com/mdba-firm/FIRM/_git/FIRM_SourceAdapter_Builds) Azure DevOps pipeline automates this across all supported Source versions, copying the correct DLLs from the `FIRM_ModelBinaries` repository before each compile.
+
+### WCF / Source-server support removed
+
+The old WCF-based `net.tcp` "Source server" mode and the `probe` command have been removed from the adapter. They were not portable to .NET 8 without a CoreWCF rewrite and are peripheral to typical FEWS use. The `probe` command entry in the configuration table above is therefore no longer available.
+
+If you need the old server-mode behaviour, check out the tag **`wcf-server-support-final`**, which is the last commit that included WCF/server support.
+
 ## Configuration overview
 
 In order to run Source via the adapter, the FEWS system needs to export information regarding the following:
